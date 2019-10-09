@@ -1,63 +1,54 @@
 
-
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
 
-import Model.Company;
-import Model.Computer;
+import org.db.connection.ConnectionBD;
+import org.db.dao.imp.CompanyDAOImpl;
+import org.db.dao.imp.ComputerDAOImpl;
+import org.db.model.Company;
+import org.db.model.Computer;
 
 public class MainClass {
 
 	public static void main(String[] args) {
-		System.out.println("hello world");
-		List<Computer> listOrdinateurs=new ArrayList<Computer>();
-		List<Company> listCompanies=new ArrayList<Company>();		
-		Scanner scan=new Scanner(System.in);
-		int nombre=scan.nextInt();
-		Connection con=null;
-		Statement stmt=null;
-		ResultSet rs=null;
-		try{  
-			Class.forName("com.mysql.cj.jdbc.Driver");  
-			con=DriverManager.getConnection(  
-			"jdbc:mysql://localhost:3306/computer-database-db","root","root");  
-			stmt=con.createStatement();  
-			rs=stmt.executeQuery("select * from computer");  
-			while(rs.next()) {  
-				String name= rs.getString("name");
-				Timestamp introduced=rs.getTimestamp("introduced");
-				Timestamp discontinued=rs.getTimestamp("discontinued");	
-				String company=rs.getString("company_id");
-				listOrdinateurs.add(new Computer(name,introduced,discontinued,company));
-			} 
-			rs=stmt.executeQuery("select * from company");
-			while(rs.next()) {  
-				String name= rs.getString("name");
-				listCompanies.add(new Company(name));
-			} 
-			switch(nombre) {
+		System.out.println("Veuilez saisir un nombre : ");
+		Scanner scanner = new Scanner(System.in);
+		int nombre = scanner.nextInt();
+		CompanyDAOImpl companyImpl = new CompanyDAOImpl();
+		ComputerDAOImpl computerImpl = new ComputerDAOImpl();
+		switch (nombre) {
 			case 1:
-				for(Computer c1:listOrdinateurs){
-					System.out.println("name:"+c1.getName()+" introduced:"+c1.getIntroduced()+" discontinued:"+c1.getDiscontinued());					
-				}
+				System.out.println("Liste des computers : \n");
+				List<Company> companies = companyImpl.getAllCompanies();
 			case 2:
-				for(Company c1:listCompanies){
-					System.out.println("name:"+c1.getName());					
-				}
-			
-			}
-		}catch(Exception e){ 
-			System.out.println(e); 
+				System.out.println("Liste des companies : \n");
+				List<Computer> computers = computerImpl.getAllComputers();
+			case 3:
+				System.out.println("Veuillez saisir l'id du computer à chercher \n");
+			    int id=scanner.nextInt();
+			    Computer recherche=computerImpl.getComputerById(id);
+			case 4:
+				System.out.println("Création d'un nouvel ordinateur \n");
+				System.out.println("Veuillez saisir un nom \n");
+				String name=scanner.next();
+				System.out.println("Veuillez saisir d'introduction \n");
+				String dateIntroduce=scanner.next();
+				System.out.println("Veuillez saisir de discontinuation \n");
+				String dateDiscont=scanner.next();
+				System.out.println("Veuillez saisir la companie");
+				String companie=scanner.next();
+				Computer mycomp=new Computer(name,Timestamp.valueOf(dateIntroduce),Timestamp.valueOf(dateDiscont),companie);
+				computerImpl.create(mycomp);
+			case 5:
+				/* A implémenter dans la classe DAO */
+			case 6:
+				System.out.println("Veuillez saisie l'identifiant à supprimer \n");
+				int idsup = scanner.nextInt();
+				computerImpl.supprimer(idsup);
 		}
-//		}finally{ 
-//			rs.close();
-//			stmt.close();
-//			con.close();
-//		} 
-}
+
 	}
-
-
+}

@@ -1,4 +1,4 @@
-package Model;
+package org.db.model;
 
 
 public class Company {
