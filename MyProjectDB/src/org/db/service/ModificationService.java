@@ -1,5 +1,0 @@
-package org.db.service;
-
-public class ModificationService {
-
-}

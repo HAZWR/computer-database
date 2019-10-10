@@ -34,8 +34,10 @@ public class CompanyDAOImpl implements CompanyDAO {
 			for (Company r : listCompanies) {
 				System.out.println("Nom : " + r.getName());
 			}
-		} catch (SQLException e) {
-			e.getMessage();
+		} catch (SQLException se) {
+			for(Throwable e : se) {
+                System.err.println("Erreurs : " + e);
+            }
 		}
 		return listCompanies;
 	}
@@ -51,8 +53,10 @@ public class CompanyDAOImpl implements CompanyDAO {
 				trouve = new Company(name);
 			}
 				System.out.println("Id :"+trouve.getId()+" Nom : " + trouve.getName());
-		} catch (SQLException e) {
-			e.getMessage();
+		} catch (SQLException se) {
+			for(Throwable e : se) {
+                System.err.println("Erreurs : " + e);
+            }
 		}
 		return trouve;
 	}
@@ -62,13 +66,15 @@ public class CompanyDAOImpl implements CompanyDAO {
 		String name = nouveau.getName();
 		try {
 			if (nouveau != null) {
-				prepared = ConnectionBD.getInstance().prepareStatement("INSERT INTO Company(name) VALUES(?)");
+				prepared = ConnectionBD.getInstance().prepareStatement("INSERT INTO company(name) VALUES(?)");
 				prepared.setString(2, name);
 				prepared.execute();
 			}
 			System.out.println("Création efféctuée avec succès de la compagnie "+name);
-		} catch (SQLException e) {
-			e.getMessage();
+		} catch (SQLException se) {
+			for(Throwable e : se) {
+                System.err.println("Erreurs : " + e);
+            }
 		}
 	}
 
@@ -80,10 +86,13 @@ public class CompanyDAOImpl implements CompanyDAO {
 	@Override
 	public void supprimer(int id) {
 		try {
-			prepared = ConnectionBD.getInstance().prepareStatement("DELETE FROM Company WHERE id=" + id);
+			prepared = ConnectionBD.getInstance().prepareStatement("DELETE FROM company WHERE id=?");
+			prepared.setInt(1,id);
 			prepared.execute();
-		} catch (SQLException e) {
-			e.getMessage();
+		} catch (SQLException se) {
+			for(Throwable e : se) {
+                System.err.println("Erreurs : " + e);
+            }
 		}
 	}
 

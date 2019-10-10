@@ -20,34 +20,43 @@ public class MainClass {
 		CompanyDAOImpl companyImpl = new CompanyDAOImpl();
 		ComputerDAOImpl computerImpl = new ComputerDAOImpl();
 		switch (nombre) {
-			case 1:
-				System.out.println("Liste des computers : \n");
-				List<Company> companies = companyImpl.getAllCompanies();
-			case 2:
-				System.out.println("Liste des companies : \n");
-				List<Computer> computers = computerImpl.getAllComputers();
-			case 3:
-				System.out.println("Veuillez saisir l'id du computer à chercher \n");
-			    int id=scanner.nextInt();
-			    Computer recherche=computerImpl.getComputerById(id);
-			case 4:
-				System.out.println("Création d'un nouvel ordinateur \n");
-				System.out.println("Veuillez saisir un nom \n");
-				String name=scanner.next();
-				System.out.println("Veuillez saisir d'introduction \n");
-				String dateIntroduce=scanner.next();
-				System.out.println("Veuillez saisir de discontinuation \n");
-				String dateDiscont=scanner.next();
-				System.out.println("Veuillez saisir la companie");
-				String companie=scanner.next();
-				Computer mycomp=new Computer(name,Timestamp.valueOf(dateIntroduce),Timestamp.valueOf(dateDiscont),companie);
-				computerImpl.create(mycomp);
-			case 5:
-				/* A implémenter dans la classe DAO */
-			case 6:
-				System.out.println("Veuillez saisie l'identifiant à supprimer \n");
-				int idsup = scanner.nextInt();
-				computerImpl.supprimer(idsup);
+		case 1:
+			System.out.println("Liste des computers : \n");
+			List<Company> companies = companyImpl.getAllCompanies();
+			break;
+		case 2:
+			System.out.println("Liste des companies : \n");
+			List<Computer> computers = computerImpl.getAllComputers();
+			break;
+		case 3:
+			System.out.println("Veuillez saisir l'id du computer à chercher \n");
+			int id = scanner.nextInt();
+			Computer recherche = computerImpl.getComputerById(id);
+			break;
+		case 4:
+			System.out.println("Création d'un nouvel ordinateur \n");
+			System.out.println("Veuillez saisir un nom \n");
+			String name = scanner.next();
+			System.out.println("Veuillez saisir d'introduction \n");
+			String dateIntroduce = scanner.next();
+			System.out.println("Veuillez saisir de discontinuation \n");
+			String dateDiscont = scanner.next();
+			System.out.println("Veuillez saisir la companie");
+			String companie = scanner.next();
+			Computer mycomp = new Computer(name, Timestamp.valueOf(dateIntroduce), Timestamp.valueOf(dateDiscont),
+					companie);
+			computerImpl.create(mycomp);
+			break;
+		case 5:
+			/* A implémenter dans la classe DAO */
+		case 6:
+			System.out.println("Veuillez saisir l'identifiant à supprimer \n");
+			int idsup = scanner.nextInt();
+			computerImpl.supprimer(idsup);
+			System.out.println("La suppression a été établie avec succèes \n");
+			scanner.next();
+
+			break;
 		}
 
 	}

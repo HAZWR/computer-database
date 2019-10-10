@@ -31,7 +31,7 @@ public class ComputerDAOImpl implements ComputerDAO {
 		String company_id=nouveau.getManufacturer();
 		try {
 			if (nouveau != null) {
-				prepared = ConnectionBD.getInstance().prepareStatement("INSERT INTO Company(name) VALUES(?,?,?,?)");
+				prepared = ConnectionBD.getInstance().prepareStatement("INSERT INTO computer(name,introduced,discontinued,company_id) VALUES(?,?,?,?)");
 				prepared.setString(2, name);
 				prepared.setTimestamp(3, introduced);
 				prepared.setTimestamp(4, discontinued);
@@ -39,8 +39,10 @@ public class ComputerDAOImpl implements ComputerDAO {
 				prepared.execute();
 			}
 			System.out.println("Création efféctuée avec succès de l'ordinateur : "+name);
-		} catch (SQLException e) {
-			e.getMessage();
+		} catch (SQLException se) {
+			for(Throwable e : se) {
+                System.err.println("Erreurs : " + e);
+            }
 		}
 	}
 
@@ -52,17 +54,22 @@ public class ComputerDAOImpl implements ComputerDAO {
 	@Override
 	public void supprimer(int id) {
 		try {
-			prepared = ConnectionBD.getInstance().prepareStatement("DELETE FROM Computer WHERE id=" + id);
-			prepared.execute();
-		} catch (SQLException e) {
-			e.getMessage();
+			prepared = ConnectionBD.getInstance().prepareStatement("DELETE FROM computer WHERE id = ?");
+			prepared.setInt(1,id);
+			int relt = prepared.executeUpdate();
+			System.out.print(relt);
+		} catch (SQLException se) {
+			for(Throwable e : se) {
+                System.err.println("Erreurs : " + e);
+            }
 		}
 	}
 	@Override
 	public List<Computer> getAllComputers() {
+
 		try {
 			statement = ConnectionBD.getInstance().createStatement();
-			ConnectionBD.getInstance().setAutoCommit(false);
+			//ConnectionBD.getInstance().setAutoCommit(false);
 			rs = statement.executeQuery("select * from computer");
 			while (rs.next()) {
 				String name = rs.getString("name");
@@ -74,17 +81,20 @@ public class ComputerDAOImpl implements ComputerDAO {
 			for (Computer r : listComputers) {
 				System.out.println("Nom des computers : " + r.getName());
 			}
-		} catch (SQLException e) {
-			e.getMessage();
+		} catch (SQLException se) {
+			for(Throwable e : se) {
+                System.err.println("Erreurs : " + e);
+            }
 		}
 		return listComputers;
 	}
 
 	@Override
 	public Computer getComputerById(int id) {
+
 		try {
 			statement = ConnectionBD.getInstance().createStatement();
-			ConnectionBD.getInstance().setAutoCommit(false);
+			//ConnectionBD.getInstance().setAutoCommit(false);
 			rs = statement.executeQuery("select * from computer where id=" + id);
 			while (rs.next()) {
 				String name = rs.getString("name");
@@ -95,8 +105,10 @@ public class ComputerDAOImpl implements ComputerDAO {
 			}
 				System.out.println(" Nom : " + trouve.getName()+" Introduced : "+trouve.getIntroduced()+" Discontinued : "+trouve.getDiscontinued()+" Company : "+trouve.getManufacturer());
 				
-		} catch (SQLException e) {
-			e.getMessage();
+		} catch (SQLException se) {
+			for(Throwable e : se) {
+                System.err.println("Erreurs : " + e);
+            }
 		}
 		return trouve;
 	}
