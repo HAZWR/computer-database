@@ -1,17 +1,27 @@
 package org.db.model;
 
 import java.sql.Date;
+import java.time.LocalDate;
 
 public class Computer {
 
 	private int id;
 	private String name;
-	private Date introduced;
-	private Date discontinued;
-	private String manufacturer;
+	private LocalDate introduced;
+	private LocalDate discontinued;
+	private int manufacturer;
 
-	public Computer(String name, Date introduced, Date discontinued, String manufacturer) {
+	public Computer(String name, LocalDate introduced, LocalDate discontinued, int manufacturer) {
 		super();
+		this.name = name;
+		this.introduced = introduced;
+		this.discontinued = discontinued;
+		this.manufacturer = manufacturer;
+	}
+	
+	public Computer(int id,String name, LocalDate introduced, LocalDate discontinued, int manufacturer) {
+		super();
+		this.id=id;
 		this.name = name;
 		this.introduced = introduced;
 		this.discontinued = discontinued;
@@ -34,27 +44,27 @@ public class Computer {
 		this.name = name;
 	}
 
-	public Date getIntroduced() {
+	public LocalDate getIntroduced() {
 		return introduced;
 	}
 
-	public void setIntroduced(Date introduced) {
+	public void setIntroduced(LocalDate introduced) {
 		this.introduced = introduced;
 	}
 
-	public Date getDiscontinued() {
+	public LocalDate getDiscontinued() {
 		return discontinued;
 	}
 
-	public void setDiscontinued(Date discontinued) {
+	public void setDiscontinued(LocalDate discontinued) {
 		this.discontinued = discontinued;
 	}
 
-	public String getManufacturer() {
+	public int getManufacturer() {
 		return manufacturer;
 	}
 
-	public void setManufacturer(String manufacturer) {
+	public void setManufacturer(int manufacturer) {
 		this.manufacturer = manufacturer;
 	}
 

@@ -1,6 +1,7 @@
 
 import java.sql.*;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -9,6 +10,7 @@ import java.util.Scanner;
 import org.db.connection.ConnectionBD;
 import org.db.dao.imp.CompanyDAOImpl;
 import org.db.dao.imp.ComputerDAOImpl;
+import org.db.mapper.HelperDate;
 import org.db.model.Company;
 import org.db.model.Computer;
 
@@ -36,6 +38,8 @@ public class MainClass {
 			break;
 		case 4:
 			System.out.println("Création d'un nouvel ordinateur \n");
+			System.out.println("Veuillez saisir un identifiant \n");
+			int idline=scanner.nextInt();
 			System.out.println("Veuillez saisir un nom \n");
 			String name = scanner.next();
 			System.out.println("Veuillez saisir d'introduction \n");
@@ -43,10 +47,13 @@ public class MainClass {
 			System.out.println("Veuillez saisir de discontinuation \n");
 			String dateDiscont = scanner.next();
 			System.out.println("Veuillez saisir la companie");
-			String companie = scanner.next();
-			SimpleDateFormat formatter = new SimpleDateFormat("dd-MMM-yyyy");
-			Computer mycomp = new Computer(name,dateIntroduce,dateDiscont,companie);
-			computerImpl.create(mycomp);
+			int companie = scanner.nextInt();
+			LocalDate dateIntroduced = HelperDate.StringDateToLocalDate(dateIntroduce);
+			LocalDate dateDisconted = HelperDate.StringDateToLocalDate(dateDiscont);
+			if(dateIntroduced.isBefore(dateDisconted)) {
+				Computer mycomp = new Computer(idline,name,dateIntroduced,dateDisconted,companie);
+				computerImpl.create(mycomp);
+			}
 			break;
 		case 5:
 			/* A implémenter dans la classe DAO */

@@ -12,7 +12,7 @@ public interface ComputerDAO {
 
 	public void create(Computer nouveau);
 
-	public void update(int id);
+	public void update(Computer comp);
 
 	public void supprimer(int id);
 
