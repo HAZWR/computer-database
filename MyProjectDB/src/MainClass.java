@@ -1,5 +1,6 @@
 
 import java.sql.*;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -21,11 +22,11 @@ public class MainClass {
 		ComputerDAOImpl computerImpl = new ComputerDAOImpl();
 		switch (nombre) {
 		case 1:
-			System.out.println("Liste des computers : \n");
+			System.out.println("Liste des companies : \n");
 			List<Company> companies = companyImpl.getAllCompanies();
 			break;
 		case 2:
-			System.out.println("Liste des companies : \n");
+			System.out.println("Liste des computers: \n");
 			List<Computer> computers = computerImpl.getAllComputers();
 			break;
 		case 3:
@@ -43,8 +44,8 @@ public class MainClass {
 			String dateDiscont = scanner.next();
 			System.out.println("Veuillez saisir la companie");
 			String companie = scanner.next();
-			Computer mycomp = new Computer(name, Timestamp.valueOf(dateIntroduce), Timestamp.valueOf(dateDiscont),
-					companie);
+			SimpleDateFormat formatter = new SimpleDateFormat("dd-MMM-yyyy");
+			Computer mycomp = new Computer(name,dateIntroduce,dateDiscont,companie);
 			computerImpl.create(mycomp);
 			break;
 		case 5:

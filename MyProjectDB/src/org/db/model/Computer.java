@@ -1,17 +1,16 @@
 package org.db.model;
 
-import java.sql.Timestamp;
-import java.util.Date;
+import java.sql.Date;
 
 public class Computer {
 
 	private int id;
 	private String name;
-	private Timestamp introduced;
-	private Timestamp discontinued;
+	private Date introduced;
+	private Date discontinued;
 	private String manufacturer;
 
-	public Computer(String name, Timestamp introduced, Timestamp discontinued, String manufacturer) {
+	public Computer(String name, Date introduced, Date discontinued, String manufacturer) {
 		super();
 		this.name = name;
 		this.introduced = introduced;
@@ -35,19 +34,19 @@ public class Computer {
 		this.name = name;
 	}
 
-	public Timestamp getIntroduced() {
+	public Date getIntroduced() {
 		return introduced;
 	}
 
-	public void setIntroduced(Timestamp introduced) {
+	public void setIntroduced(Date introduced) {
 		this.introduced = introduced;
 	}
 
-	public Timestamp getDiscontinued() {
+	public Date getDiscontinued() {
 		return discontinued;
 	}
 
-	public void setDiscontinued(Timestamp discontinued) {
+	public void setDiscontinued(Date discontinued) {
 		this.discontinued = discontinued;
 	}
 

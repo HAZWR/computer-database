@@ -1,5 +1,7 @@
 package org.db.dao.imp;
 
+
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -26,15 +28,15 @@ public class ComputerDAOImpl implements ComputerDAO {
 	@Override
 	public void create(Computer nouveau) {
 		String name = nouveau.getName();
-		Timestamp introduced=nouveau.getIntroduced();
-		Timestamp discontinued=nouveau.getDiscontinued();
+		Date introduced=nouveau.getIntroduced();
+		Date discontinued=nouveau.getDiscontinued();
 		String company_id=nouveau.getManufacturer();
 		try {
 			if (nouveau != null) {
 				prepared = ConnectionBD.getInstance().prepareStatement("INSERT INTO computer(name,introduced,discontinued,company_id) VALUES(?,?,?,?)");
 				prepared.setString(2, name);
-				prepared.setTimestamp(3, introduced);
-				prepared.setTimestamp(4, discontinued);
+				prepared.setDate(3, introduced);
+				prepared.setDate(4, discontinued);
 				prepared.setString(4, company_id);
 				prepared.execute();
 			}
@@ -73,8 +75,8 @@ public class ComputerDAOImpl implements ComputerDAO {
 			rs = statement.executeQuery("select * from computer");
 			while (rs.next()) {
 				String name = rs.getString("name");
-				Timestamp introduced=rs.getTimestamp("introduced");
-				Timestamp discontinued=rs.getTimestamp("discontinued");
+				Date introduced=rs.getDate("introduced");
+				Date discontinued=rs.getDate("discontinued");
 				String company=rs.getString("company_id");
 				listComputers.add(new Computer(name,introduced,discontinued,company));
 			}
@@ -98,8 +100,8 @@ public class ComputerDAOImpl implements ComputerDAO {
 			rs = statement.executeQuery("select * from computer where id=" + id);
 			while (rs.next()) {
 				String name = rs.getString("name");
-				Timestamp introduced=rs.getTimestamp("introduced");
-				Timestamp discontinued=rs.getTimestamp("discontinued");
+				Date introduced=rs.getDate("introduced");
+				Date discontinued=rs.getDate("discontinued");
 				String company=rs.getString("company_id");
 				trouve = new Computer(name,introduced,discontinued,company);
 			}
