@@ -16,16 +16,19 @@ import org.db.model.Computer;
 
 import com.db.controller.CompanyController;
 import com.db.controller.ComputerController;
+import java.util.logging.*;
 
 public class MainClass {
 
 	public static void main(String[] args) {
+		int i=9_999;
 		MainClass.monMenu();
 		System.out.println("Veuilez saisir un nombre : ");
 		Scanner scanner = new Scanner(System.in);
-		int nombre = scanner.nextInt();
+		int nombre = scanner.nextInt(); 
 		CompanyController companyImpl = new CompanyController();
 		ComputerController computerImpl = new ComputerController();
+		final Logger myloger=Logger.getLogger(MainClass.class.getName());
 		switch (nombre) {
 		case 1:
 			System.out.println("Liste des companies : \n");

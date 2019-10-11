@@ -12,8 +12,7 @@ public class CompanyController {
 	
 	CompanyDAOImpl company=new CompanyDAOImpl();
 	
-	public void getAllCompanies(){
-		
+	public void getAllCompanies(){		
 		listCompanies=company.getAllCompanies();		
 		for (Company r : listCompanies) {
 			System.out.println("Nom : " + r.getName());

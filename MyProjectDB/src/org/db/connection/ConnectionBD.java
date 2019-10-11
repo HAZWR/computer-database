@@ -25,7 +25,7 @@ public class ConnectionBD {
 
 	// Méthode qui va nous retourner notre instance et la créer si elle n'existe pas
 	public static Connection getInstance() throws SQLException {
-		if (connect == null) {
+		if (connect == null || connect.isClosed()) {
 			new ConnectionBD();
 			System.out.println("INSTANCIATION DE LA CONNEXION SQL ! ");
 		} else {

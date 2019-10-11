@@ -10,10 +10,4 @@ public interface CompanyDAO {
 
 	public Company getCompanyById(int id);
 
-	public void create(Company nouveau);
-
-	public void update(int id);
-
-	public void supprimer(int id);
-
 }

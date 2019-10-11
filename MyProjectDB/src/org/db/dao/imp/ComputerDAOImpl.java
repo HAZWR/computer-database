@@ -26,7 +26,12 @@ public class ComputerDAOImpl implements ComputerDAO {
 	List<Computer> listComputers = new ArrayList<Computer>();
 	ResultSet rs = null;
 	Computer trouve = null;
-
+    private final static String createQuery="INSERT INTO computer VALUES(?,?,?,?,?)";
+    private final static String updateQuery="UPDATE computer SET name=?,introduced=?,discontinued=?,company_id=? WHERE id=?";
+    private final static String supprimerQuery="DELETE FROM computer WHERE id = ?";
+    private final static String getAllQuery="select * from computer";
+    private final static String getIdQuery="select * from computer where id=";
+    
 	
 	@Override
 	public void create(Computer nouveau) {
@@ -37,7 +42,7 @@ public class ComputerDAOImpl implements ComputerDAO {
 		int company_id=nouveau.getManufacturer();
 		try {
 			if (nouveau != null) {
-				prepared = ConnectionBD.getInstance().prepareStatement("INSERT INTO computer VALUES(?,?,?,?,?)");
+				prepared = ConnectionBD.getInstance().prepareStatement(createQuery);
 				prepared.setInt(1, id);
 				prepared.setString(2, name);
 				prepared.setDate(3, HelperDate.dateToSql(introduced));
@@ -55,7 +60,7 @@ public class ComputerDAOImpl implements ComputerDAO {
 	@Override
 	public void update(Computer comp) {
 		try {		
-			prepared=ConnectionBD.getInstance().prepareStatement("UPDATE computer SET name=?,introduced=?,discontinued=?,company_id=? WHERE id=?");
+			prepared=ConnectionBD.getInstance().prepareStatement(updateQuery);
 			prepared.setInt(1,comp.getId());
 			prepared.setString(2,comp.getName());
 			prepared.setDate(3,HelperDate.dateToSql(comp.getIntroduced())); 
@@ -72,7 +77,7 @@ public class ComputerDAOImpl implements ComputerDAO {
 	@Override
 	public void supprimer(int id) {
 		try {
-			prepared = ConnectionBD.getInstance().prepareStatement("DELETE FROM computer WHERE id = ?");
+			prepared = ConnectionBD.getInstance().prepareStatement(supprimerQuery);
 			prepared.setInt(1,id);
 			int relt = prepared.executeUpdate();
 			System.out.print(relt);
@@ -88,7 +93,7 @@ public class ComputerDAOImpl implements ComputerDAO {
 		try {
 			statement = ConnectionBD.getInstance().createStatement();
 			//ConnectionBD.getInstance().setAutoCommit(false);
-			rs = statement.executeQuery("select * from computer");
+			rs = statement.executeQuery(getAllQuery);
 			while (rs.next()) {
 				String name = rs.getString("name");
 				LocalDate introduced=rs.getObject("introduced",LocalDate.class);
@@ -110,7 +115,7 @@ public class ComputerDAOImpl implements ComputerDAO {
 		try {
 			statement = ConnectionBD.getInstance().createStatement();
 			//ConnectionBD.getInstance().setAutoCommit(false);
-			rs = statement.executeQuery("select * from computer where id=" + id);
+			rs = statement.executeQuery(getIdQuery + id);
 			while (rs.next()) {
 				String name = rs.getString("name");
 				LocalDate introduced=rs.getObject("introduced",LocalDate.class);

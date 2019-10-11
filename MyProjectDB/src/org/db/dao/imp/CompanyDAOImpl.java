@@ -20,13 +20,14 @@ public class CompanyDAOImpl implements CompanyDAO {
 	List<Company> listCompanies = new ArrayList<Company>();
 	ResultSet rs = null;
 	Company trouve = null;
-
+	private final static String getAllCompanies="select * from company";
+	private final static String getIdCompany="select * from company where id=";
+	
 	@Override
 	public List<Company> getAllCompanies() {
 		try {
 			statement = ConnectionBD.getInstance().createStatement();
-			ConnectionBD.getInstance().setAutoCommit(false);
-			rs = statement.executeQuery("select * from company");
+			rs = statement.executeQuery(getAllCompanies);
 			while (rs.next()) {
 				String name = rs.getString("name");
 				listCompanies.add(new Company(name));
@@ -44,7 +45,7 @@ public class CompanyDAOImpl implements CompanyDAO {
 		try {
 			statement = ConnectionBD.getInstance().createStatement();
 			ConnectionBD.getInstance().setAutoCommit(false);
-			rs = statement.executeQuery("select * from company where id=" + id);
+			rs = statement.executeQuery(getIdCompany + id);
 			while (rs.next()) {
 				String name = rs.getString("name");
 				trouve = new Company(name);
@@ -55,40 +56,6 @@ public class CompanyDAOImpl implements CompanyDAO {
             }
 		}
 		return trouve;
-	}
-
-	@Override
-	public void create(Company nouveau) {
-		String name = nouveau.getName();
-		try {
-			if (nouveau != null) {
-				prepared = ConnectionBD.getInstance().prepareStatement("INSERT INTO company(name) VALUES(?)");
-				prepared.setString(2, name);
-				prepared.execute();
-			}
-		} catch (SQLException se) {
-			for(Throwable e : se) {
-                System.err.println("Erreurs : " + e);
-            }
-		}
-	}
-
-	@Override
-	public void update(int id) {
-		// TODO Auto-generated method stub
-	}
-
-	@Override
-	public void supprimer(int id) {
-		try {
-			prepared = ConnectionBD.getInstance().prepareStatement("DELETE FROM company WHERE id=?");
-			prepared.setInt(1,id);
-			prepared.execute();
-		} catch (SQLException se) {
-			for(Throwable e : se) {
-                System.err.println("Erreurs : " + e);
-            }
-		}
 	}
 
 }
