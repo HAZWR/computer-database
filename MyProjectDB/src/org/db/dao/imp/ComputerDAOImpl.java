@@ -10,6 +10,7 @@ import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
 import org.db.connection.ConnectionBD;
 import org.db.dao.CompanyDAO;
@@ -44,7 +45,6 @@ public class ComputerDAOImpl implements ComputerDAO {
 				prepared.setInt(5, company_id);
 				prepared.execute();
 			}
-			System.out.println("Création efféctuée avec succès de l'ordinateur : "+name);
 		} catch (SQLException se) {
 			for(Throwable e : se) {
                 System.err.println("Erreurs : " + e);
@@ -96,9 +96,6 @@ public class ComputerDAOImpl implements ComputerDAO {
 				int company=rs.getInt("company_id");
 				listComputers.add(new Computer(name,introduced,discontinued,company));
 			}
-			for (Computer r : listComputers) {
-				System.out.println("Nom des computers : " + r.getName());
-			}
 		} catch (SQLException se) {
 			for(Throwable e : se) {
                 System.err.println("Erreurs : " + e);
@@ -120,9 +117,7 @@ public class ComputerDAOImpl implements ComputerDAO {
 				LocalDate discontinued=rs.getObject("discontinued",LocalDate.class);
 				int company=rs.getInt("company_id");
 				trouve = new Computer(name,introduced,discontinued,company);
-			}
-				System.out.println(" Nom : " + trouve.getName()+" Introduced : "+trouve.getIntroduced()+" Discontinued : "+trouve.getDiscontinued()+" Company : "+trouve.getManufacturer());
-				
+			}	
 		} catch (SQLException se) {
 			for(Throwable e : se) {
                 System.err.println("Erreurs : " + e);

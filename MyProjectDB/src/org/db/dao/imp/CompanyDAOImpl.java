@@ -31,9 +31,6 @@ public class CompanyDAOImpl implements CompanyDAO {
 				String name = rs.getString("name");
 				listCompanies.add(new Company(name));
 			}
-			for (Company r : listCompanies) {
-				System.out.println("Nom : " + r.getName());
-			}
 		} catch (SQLException se) {
 			for(Throwable e : se) {
                 System.err.println("Erreurs : " + e);
@@ -52,7 +49,6 @@ public class CompanyDAOImpl implements CompanyDAO {
 				String name = rs.getString("name");
 				trouve = new Company(name);
 			}
-				System.out.println("Id :"+trouve.getId()+" Nom : " + trouve.getName());
 		} catch (SQLException se) {
 			for(Throwable e : se) {
                 System.err.println("Erreurs : " + e);
@@ -70,7 +66,6 @@ public class CompanyDAOImpl implements CompanyDAO {
 				prepared.setString(2, name);
 				prepared.execute();
 			}
-			System.out.println("Création efféctuée avec succès de la compagnie "+name);
 		} catch (SQLException se) {
 			for(Throwable e : se) {
                 System.err.println("Erreurs : " + e);

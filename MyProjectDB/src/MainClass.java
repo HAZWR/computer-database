@@ -14,27 +14,31 @@ import org.db.mapper.HelperDate;
 import org.db.model.Company;
 import org.db.model.Computer;
 
+import com.db.controller.CompanyController;
+import com.db.controller.ComputerController;
+
 public class MainClass {
 
 	public static void main(String[] args) {
+		MainClass.monMenu();
 		System.out.println("Veuilez saisir un nombre : ");
 		Scanner scanner = new Scanner(System.in);
 		int nombre = scanner.nextInt();
-		CompanyDAOImpl companyImpl = new CompanyDAOImpl();
-		ComputerDAOImpl computerImpl = new ComputerDAOImpl();
+		CompanyController companyImpl = new CompanyController();
+		ComputerController computerImpl = new ComputerController();
 		switch (nombre) {
 		case 1:
 			System.out.println("Liste des companies : \n");
-			List<Company> companies = companyImpl.getAllCompanies();
+			companyImpl.getAllCompanies();
 			break;
 		case 2:
 			System.out.println("Liste des computers: \n");
-			List<Computer> computers = computerImpl.getAllComputers();
+			computerImpl.getAllComputers();
 			break;
 		case 3:
 			System.out.println("Veuillez saisir l'id du computer à chercher \n");
 			int id = scanner.nextInt();
-			Computer recherche = computerImpl.getComputerById(id);
+			computerImpl.getComputerById(id);
 			break;
 		case 4:
 			System.out.println("Création d'un nouvel ordinateur \n");
@@ -61,11 +65,24 @@ public class MainClass {
 			System.out.println("Veuillez saisir l'identifiant à supprimer \n");
 			int idsup = scanner.nextInt();
 			computerImpl.supprimer(idsup);
-			System.out.println("La suppression a été établie avec succèes \n");
 			scanner.next();
-
 			break;
+		default:
+			System.out.println("Vous avez quitter la plateforme");
 		}
-
 	}
+		public static void monMenu() {
+			System.out.println("====================================================");
+			System.out.println("                    MENU                             ");
+			System.out.println("====================================================");
+			System.out.println("Choose one option please, Entrer number of operation.");
+			System.out.println("1 - Show list of companies");
+			System.out.println("2 - Show list computers");
+			System.out.println("3 - Show details of selected Computer");
+			System.out.println("4 - Create computer");
+			System.out.println("5 - Update computer");
+			System.out.println("6 - Delete computer");
+			System.out.println("0 - Quit");
+			
+		}
 }
