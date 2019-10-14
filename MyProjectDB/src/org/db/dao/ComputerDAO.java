@@ -15,5 +15,9 @@ public interface ComputerDAO {
 	public void update(Computer comp);
 
 	public void supprimer(int id);
+	
+	public int count();
+
+	public List<Computer> getAllComputersPagination(int nombre, int offset);
 
 }

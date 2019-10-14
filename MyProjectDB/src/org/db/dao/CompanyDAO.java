@@ -10,4 +10,8 @@ public interface CompanyDAO {
 
 	public Company getCompanyById(int id);
 
+	int countCompanies();
+
+	List<Company> getAllCompaniesPagination(int nombre, int offset);
+
 }

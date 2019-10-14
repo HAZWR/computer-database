@@ -10,7 +10,7 @@ import java.util.Scanner;
 import org.db.connection.ConnectionBD;
 import org.db.dao.imp.CompanyDAOImpl;
 import org.db.dao.imp.ComputerDAOImpl;
-import org.db.mapper.HelperDate;
+import org.db.mapper.ConverterDate;
 import org.db.model.Company;
 import org.db.model.Computer;
 
@@ -19,9 +19,7 @@ import com.db.controller.ComputerController;
 import java.util.logging.*;
 
 public class MainClass {
-
 	public static void main(String[] args) {
-		int i=9_999;
 		MainClass.monMenu();
 		System.out.println("Veuilez saisir un nombre : ");
 		Scanner scanner = new Scanner(System.in);
@@ -55,20 +53,58 @@ public class MainClass {
 			String dateDiscont = scanner.next();
 			System.out.println("Veuillez saisir la companie");
 			int companie = scanner.nextInt();
-			LocalDate dateIntroduced = HelperDate.StringDateToLocalDate(dateIntroduce);
-			LocalDate dateDisconted = HelperDate.StringDateToLocalDate(dateDiscont);
+			LocalDate dateIntroduced = ConverterDate.StringDateToLocalDate(dateIntroduce);
+			LocalDate dateDisconted = ConverterDate.StringDateToLocalDate(dateDiscont);
 			if(dateIntroduced.isBefore(dateDisconted)) {
 				Computer mycomp = new Computer(idline,name,dateIntroduced,dateDisconted,companie);
 				computerImpl.create(mycomp);
 			}
 			break;
 		case 5:
-			/* A implémenter dans la classe DAO */
+			System.out.println("Veuillez saisir un id pour l'ordinateur à modifier");
+			int idUpdate=scanner.nextInt();
+			Computer comp=computerImpl.getComputerById(idUpdate);
+			System.out.println("Veuillez saisir un id \n");
+			int id1=scanner.nextInt();
+			System.out.println("Veuillez saisir un nom \n");
+			String name1 = scanner.next();
+			System.out.println("Veuillez saisir d'introduction \n");
+			String dateIntroduce1 = scanner.next();
+			System.out.println("Veuillez saisir de discontinuation \n");
+			String dateDiscont1 = scanner.next();
+			System.out.println("Veuillez saisir la companie");
+			int companie1 = scanner.nextInt();
+			LocalDate dateIntroduced1 = ConverterDate.StringDateToLocalDate(dateIntroduce1);
+			LocalDate dateDisconted1 = ConverterDate.StringDateToLocalDate(dateDiscont1);
+			if(dateIntroduced1.isBefore(dateDisconted1)) {
+				comp.setId(id1);
+				comp.setName(name1);
+				comp.setIntroduced(dateIntroduced1);
+				comp.setDiscontinued(dateDisconted1);
+				comp.setManufacturer(companie1);
+				computerImpl.update(comp);
+			}
 		case 6:
 			System.out.println("Veuillez saisir l'identifiant à supprimer \n");
 			int idsup = scanner.nextInt();
 			computerImpl.supprimer(idsup);
 			scanner.next();
+			break;
+		case 7 :
+			System.out.println("Affichage des computers avec pagination");
+			System.out.println("Veuillez saisir le nombre de lignes");
+			int nbLigne=scanner.nextInt();
+			System.out.println("Veuillez saisir le commencement(offset)");
+			int offset=scanner.nextInt();
+			computerImpl.getAllComputersPagination(nbLigne, offset);
+			break;
+		case 8 :
+			System.out.println("Affichage des companies avec pagination");
+			System.out.println("Veuillez saisir le nombre de lignes");
+			int nbL=scanner.nextInt();
+			System.out.println("Veuillez saisir le commencement(offset)");
+			int offs=scanner.nextInt();
+			companyImpl.getAllCompaniesPagination(nbL,offs);
 			break;
 		default:
 			System.out.println("Vous avez quitter la plateforme");
@@ -85,6 +121,8 @@ public class MainClass {
 			System.out.println("4 - Create computer");
 			System.out.println("5 - Update computer");
 			System.out.println("6 - Delete computer");
+			System.out.println("7 -Affichage de computers par pagination");
+			System.out.println("8- Affichage de companies par pagination");
 			System.out.println("0 - Quit");
 			
 		}

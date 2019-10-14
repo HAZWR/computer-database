@@ -1,8 +1,10 @@
 package com.db.controller;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.db.connection.ConnectionBD;
 import org.db.dao.imp.ComputerDAOImpl;
 import org.db.model.Computer;
 
@@ -20,9 +22,10 @@ public class ComputerController {
 			}			
 		}
 		
-		public void getComputerById(int id) {
+		public Computer getComputerById(int id) {
 			Computer comp=compl.getComputerById(id);
-			System.out.println(" Nom : " + comp.getName()+" Introduced : "+comp.getIntroduced()+" Discontinued : "+comp.getDiscontinued()+" Company : "+comp.getManufacturer());		
+			System.out.println(" Nom : " + comp.getName()+" Introduced : "+comp.getIntroduced()+" Discontinued : "+comp.getDiscontinued()+" Company : "+comp.getManufacturer());	
+			return comp;
 		}
 		
 		public void create(Computer comp) {			
@@ -31,13 +34,25 @@ public class ComputerController {
 		}
 		
 		public void update(Computer comp) {
-			/*
-			 * A implémenter par la suite
-			 */
+			compl.update(comp); 
+			System.out.println("Nom du computer : " + comp.getName()+"Date d'introduction : "+comp.getIntroduced()+"Date discontinued : "+comp.getDiscontinued()+"Company_id : "+comp.getManufacturer());
+			System.out.println("Modification efféctuée avec succès de l'ordinateur : "+comp.getName());
 		}
 		
 		public void supprimer(int id) {
 			compl.supprimer(id);
 			System.out.println("Votre suppression est faite avec succès");
+		}
+		
+		public void getAllComputersPagination(int nblignes,int offset) {
+			mylist=compl.getAllComputersPagination(nblignes, offset);
+			for (Computer comp : mylist) {
+				System.out.println("Nom des computers : " + comp.getName());
+			}
+			
+		}
+		public void count() {
+	       int nombre=compl.count();
+	       System.out.println("Nombre d'ordinateurs : "+nombre);
 		}
 }	

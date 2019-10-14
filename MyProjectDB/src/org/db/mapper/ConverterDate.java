@@ -5,7 +5,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 
-public class HelperDate {
+public class ConverterDate {
 	public static Date dateToSql(LocalDate date) {
 		if(date == null ) return null;
 		return Date.valueOf(date);
@@ -20,9 +20,4 @@ public class HelperDate {
 		return LocalDate.parse(date);
 	}
 	
-	public static LocalDate sqlDateToLocalDate(Date date) {
-        return Optional.ofNullable(date)
-          .map(Date::toLocalDate)
-          .orElse(null);
-    }
 }

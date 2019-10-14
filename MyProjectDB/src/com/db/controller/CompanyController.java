@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.db.dao.imp.CompanyDAOImpl;
 import org.db.model.Company;
+import org.db.model.Computer;
 
 public class CompanyController {
 	
@@ -17,6 +18,13 @@ public class CompanyController {
 		for (Company r : listCompanies) {
 			System.out.println("Nom : " + r.getName());
 		}		
+	}
+	
+	public void getAllCompaniesPagination(int nblignes,int offset) {
+		listCompanies=company.getAllCompaniesPagination(nblignes, offset);
+		for (Company comp : listCompanies) {
+			System.out.println("Nom des computers : " + comp.getName());
+		}
 	}
 	
 }
