@@ -13,6 +13,7 @@ import java.util.logging.Logger;
 
 import org.db.connection.ConnectionBD;
 import org.db.dao.ComputerDAO;
+import org.db.mapper.ComputerMapper;
 import org.db.mapper.ConverterDate;
 import org.db.model.Company;
 import org.db.model.Computer;
@@ -27,9 +28,11 @@ public class ComputerDAOImpl implements ComputerDAO {
     private final static String updateQuery="UPDATE computer SET name=?,introduced=?,discontinued=?,company_id=(select id from company where name like ?) WHERE id=?";
     private final static String supprimerQuery="DELETE FROM computer WHERE id = ?";
     private final static String getAllQuery="select * from computer AS cmpt LEFT JOIN company AS cmpa ON cmpt.company_id=cmpa.id";
-    private final static String getIdQuery="select * from computer AS cmpt where id=? LEFT JOIN company AS cmpa ON cmpt.company_id=cmpa.id";
+    private final static String getIdQuery="select * from computer AS cmpt LEFT JOIN company AS cmpa ON cmpt.company_id=cmpa.id where cmpt.id=?";
     private final static String getCount="select count(id) as nombre from computer";
+    private final static String getAllWithPaginatin="select * from computer AS cmpt LEFT JOIN company AS cmpa ON cmpt.company_id=cmpa.id LIMIT ? OFFSET ?";
 	Logger logger=Logger.getLogger("my logger");
+	private ComputerMapper computerMapper;
 	
 	@Override
 	public void create(Computer nouveau) {
@@ -99,14 +102,9 @@ public class ComputerDAOImpl implements ComputerDAO {
 			prepared = ConnectionBD.getInstance().prepareStatement(getAllQuery);
 			rs = prepared.executeQuery();
 			logger.log(Level.INFO,"Lancement de l'opération d'affichage d'ordinateurs");
+			computerMapper=ComputerMapper.getInstance();
 			while (rs.next()) {
-				Computer computer = new Computer();
-				computer.setId(rs.getInt("cmpt.id"));
-				computer.setName(rs.getString("cmpt.name"));
-				computer.setIntroduced(rs.getDate("cmpt.introduced").toLocalDate());
-				computer.setDiscontinued(rs.getDate("cmpt.discontinued").toLocalDate());
-				computer.setManufacturer(new Company(rs.getInt("cmpa.id"),rs.getString("cmpa.name")));
-				listComputers.add(computer);
+				listComputers.add(computerMapper.convertSQLtoComputer(rs));
 			}
 			logger.log(Level.INFO,"Fin de l'opération d'affichage d'ordinateurs");
 		} catch (SQLException se) {
@@ -124,13 +122,11 @@ public class ComputerDAOImpl implements ComputerDAO {
 		try {
 			logger.log(Level.INFO,"Lancement de l'opération d'affichage d'ordinateur by id");
 			prepared = ConnectionBD.getInstance().prepareStatement(getIdQuery);
+			prepared.setInt(1, id);
 			rs = prepared.executeQuery();
+			computerMapper=ComputerMapper.getInstance();
 			while (rs.next()) {
-				trouve.setId(rs.getInt("cmpt.id"));
-				trouve.setName(rs.getString("cmpt.name"));
-				trouve.setIntroduced(rs.getDate("cmpt.introduced").toLocalDate());
-				trouve.setDiscontinued(rs.getDate("cmpt.discontinued").toLocalDate());
-				trouve.setManufacturer(new Company(rs.getInt("cmpa.id"),rs.getString("cmpa.name")));
+				return computerMapper.convertSQLtoComputer(rs);
 			}	
 			logger.log(Level.INFO,"Fin de l'opération d'affichage d'ordinateur by id");
 		} catch (SQLException se) {
@@ -158,25 +154,24 @@ public class ComputerDAOImpl implements ComputerDAO {
 
 	@Override
 	public List<Computer> getAllComputersPagination(int nombre,int offset) {
-//		logger.log(Level.INFO,"Début de l'opération d'affichage d'ordinateurs avec pagination");
-//		try {
-//			logger.log(Level.INFO,"Lancement de l'opération d'affichage d'ordinateurs avec pagination");
-//			statement=ConnectionBD.getInstance().createStatement();
-//			rs=statement.executeQuery("select * from computer AS cmpt LEFT JOIN company AS cmpa ON cmpt.company_id=cmpa.id LIMIT"+nombre+ "OFFSET"+offset);
-//			while (rs.next()) {
-//				String name = rs.getString("cmpt.name");
-//				LocalDate introduced=rs.getObject("cmpt.introduced",LocalDate.class);
-//				LocalDate discontinued=rs.getObject("cmpt.discontinued",LocalDate.class);
-//				Company company=new Company(rs.getInt("cmpa.id"),rs.getString("cmpa.name"));
-//				listComputers.add(new Computer(name,introduced,discontinued,company));
-//			}
-//			logger.log(Level.INFO,"Fin de l'opération d'affichage d'ordinateurs avec pagination");
-//			return listComputers;
-//		}catch(SQLException se) {
-//			for(Throwable e : se) {
-//                System.err.println("Erreurs : " + e);
-//            }
-//		}
+		logger.log(Level.INFO,"Début de l'opération d'affichage d'ordinateurs avec pagination");
+		try {
+			logger.log(Level.INFO,"Lancement de l'opération d'affichage d'ordinateurs avec pagination");
+			prepared=ConnectionBD.getInstance().prepareStatement(getAllWithPaginatin);
+			prepared.setInt(1, nombre);
+			prepared.setInt(2, offset);
+			rs=prepared.executeQuery();
+			computerMapper=ComputerMapper.getInstance();
+			while (rs.next()) {
+				listComputers.add(computerMapper.convertSQLtoComputer(rs));
+			}
+			logger.log(Level.INFO,"Fin de l'opération d'affichage d'ordinateurs avec pagination");
+			return listComputers;
+		}catch(SQLException se) {
+			for(Throwable e : se) {
+                System.err.println("Erreurs : " + e);
+            }
+		}
 		return null;
 	}
 	

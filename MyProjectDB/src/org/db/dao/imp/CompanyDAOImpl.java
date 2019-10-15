@@ -11,6 +11,7 @@ import java.util.logging.Logger;
 
 import org.db.connection.ConnectionBD;
 import org.db.dao.CompanyDAO;
+import org.db.mapper.CompanyMapper;
 import org.db.model.Company;
 
 public class CompanyDAOImpl implements CompanyDAO {
@@ -22,17 +23,18 @@ public class CompanyDAOImpl implements CompanyDAO {
 	private final static String getAllCompanies="select * from company";
 	private final static String getCount="select count(id) as nombre from company";
 	Logger logger=Logger.getLogger("my logger");
+	private CompanyMapper computerMapper;
 	
 	@Override
 	public List<Company> getAllCompanies() {
 		logger.log(Level.INFO,"Début de l'opération d'affichage de toutes les companies");
 		try {
+			computerMapper=CompanyMapper.getInstance();
 			prepared = ConnectionBD.getInstance().prepareStatement(getAllCompanies);
 			rs = prepared.executeQuery();
 			logger.log(Level.INFO,"Lancement de l'opération d'affichage de toutes les companies");
 			while (rs.next()) {
-				String name = rs.getString("name");
-				listCompanies.add(new Company(name));
+				listCompanies.add(computerMapper.convertSQLtoCompany(rs));
 			}
 			logger.log(Level.INFO,"Fin de l'opération d'affichage de toutes les companies");
 		} catch (SQLException se) {
