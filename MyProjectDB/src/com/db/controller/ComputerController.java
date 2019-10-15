@@ -1,10 +1,8 @@
 package com.db.controller;
 
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.db.connection.ConnectionBD;
 import org.db.dao.imp.ComputerDAOImpl;
 import org.db.model.Computer;
 
@@ -24,7 +22,7 @@ public class ComputerController {
 		
 		public Computer getComputerById(int id) {
 			Computer comp=compl.getComputerById(id);
-			System.out.println(" Nom : " + comp.getName()+" Introduced : "+comp.getIntroduced()+" Discontinued : "+comp.getDiscontinued()+" Company : "+comp.getManufacturer());	
+			System.out.println(comp.toString());	
 			return comp;
 		}
 		
@@ -35,7 +33,7 @@ public class ComputerController {
 		
 		public void update(Computer comp) {
 			compl.update(comp); 
-			System.out.println("Nom du computer : " + comp.getName()+"Date d'introduction : "+comp.getIntroduced()+"Date discontinued : "+comp.getDiscontinued()+"Company_id : "+comp.getManufacturer());
+			System.out.println(comp.toString());
 			System.out.println("Modification efféctuée avec succès de l'ordinateur : "+comp.getName());
 		}
 		

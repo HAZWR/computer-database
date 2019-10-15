@@ -42,21 +42,19 @@ public class MainClass {
 			computerImpl.getComputerById(id);
 			break;
 		case 4:
+			Computer mycomp=new Computer();
 			System.out.println("Création d'un nouvel ordinateur \n");
-			System.out.println("Veuillez saisir un identifiant \n");
-			int idline=scanner.nextInt();
 			System.out.println("Veuillez saisir un nom \n");
-			String name = scanner.next();
+			mycomp.setName(scanner.next());
 			System.out.println("Veuillez saisir d'introduction \n");
-			String dateIntroduce = scanner.next();
+			LocalDate dateIntroduced=ConverterDate.StringDateToLocalDate(scanner.next());
 			System.out.println("Veuillez saisir de discontinuation \n");
-			String dateDiscont = scanner.next();
+			LocalDate dateDisconted=ConverterDate.StringDateToLocalDate(scanner.next());
 			System.out.println("Veuillez saisir la companie");
-			int companie = scanner.nextInt();
-			LocalDate dateIntroduced = ConverterDate.StringDateToLocalDate(dateIntroduce);
-			LocalDate dateDisconted = ConverterDate.StringDateToLocalDate(dateDiscont);
+			mycomp.setManufacturer(new Company(0,scanner.nextLine()));
 			if(dateIntroduced.isBefore(dateDisconted)) {
-				Computer mycomp = new Computer(idline,name,dateIntroduced,dateDisconted,companie);
+				mycomp.setIntroduced(dateIntroduced);
+				mycomp.setDiscontinued(dateDisconted);
 				computerImpl.create(mycomp);
 			}
 			break;
@@ -65,23 +63,18 @@ public class MainClass {
 			int idUpdate=scanner.nextInt();
 			Computer comp=computerImpl.getComputerById(idUpdate);
 			System.out.println("Veuillez saisir un id \n");
-			int id1=scanner.nextInt();
+			comp.setId(scanner.nextInt());
 			System.out.println("Veuillez saisir un nom \n");
-			String name1 = scanner.next();
+			comp.setName(scanner.next());
 			System.out.println("Veuillez saisir d'introduction \n");
-			String dateIntroduce1 = scanner.next();
+			LocalDate dateIntroduced1 = ConverterDate.StringDateToLocalDate(scanner.next());
 			System.out.println("Veuillez saisir de discontinuation \n");
-			String dateDiscont1 = scanner.next();
+			LocalDate dateDisconted1 = ConverterDate.StringDateToLocalDate(scanner.next());
 			System.out.println("Veuillez saisir la companie");
-			int companie1 = scanner.nextInt();
-			LocalDate dateIntroduced1 = ConverterDate.StringDateToLocalDate(dateIntroduce1);
-			LocalDate dateDisconted1 = ConverterDate.StringDateToLocalDate(dateDiscont1);
+			comp.setManufacturer(new Company(1,scanner.nextLine()));
 			if(dateIntroduced1.isBefore(dateDisconted1)) {
-				comp.setId(id1);
-				comp.setName(name1);
 				comp.setIntroduced(dateIntroduced1);
 				comp.setDiscontinued(dateDisconted1);
-				comp.setManufacturer(companie1);
 				computerImpl.update(comp);
 			}
 		case 6:
