@@ -44,6 +44,8 @@ public class MainClass {
 			break;
 		case 4:
 			System.out.println("Création d'un nouvel ordinateur \n");
+			System.out.println("Veuillez saisir un identifiant \n");
+			int identifiant=scanner.nextInt();
 			System.out.println("Veuillez saisir un nom \n");
 			String name=scanner.next();
 			System.out.println("Veuillez saisir d'introduction \n");
@@ -53,7 +55,7 @@ public class MainClass {
 			System.out.println("Veuillez saisir la companie");
 			Company company=new Company(0,scanner.nextLine());
 			if(dateIntroduced.isBefore(dateDisconted)) {
-				computerImpl.create(new ComputerBuilder().name(name).introduced(dateIntroduced).discontinued(dateDisconted).company(company).build());
+				computerImpl.create(new ComputerBuilder().id(identifiant).name(name).introduced(dateIntroduced).discontinued(dateDisconted).company(company).build());
 			}
 			break;
 		case 5:
@@ -73,6 +75,7 @@ public class MainClass {
 			if(dateIntroduced1.isBefore(dateDisconted1)) {
 				computerImpl.update(new ComputerBuilder().id(id1).name(name1).introduced(dateIntroduced1).discontinued(dateDisconted1).company(company1).build());
 			}
+			break;
 		case 6:
 			System.out.println("Veuillez saisir l'identifiant à supprimer \n");
 			int idsup = scanner.nextInt();
