@@ -2,10 +2,11 @@ package org.db.mapper;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 
 import org.db.model.Company;
 import org.db.model.Computer;
-
+import org.db.model.Computer.ComputerBuilder;
 public class ComputerMapper {
 	
     private static ComputerMapper computerMap;
@@ -20,18 +21,24 @@ public class ComputerMapper {
 	}
 	
 	public Computer convertSQLtoComputer(ResultSet rs) {
-			Computer computer=new Computer();
+			Computer computer;
+			int id=0;
+			String name=null;
+			LocalDate introduced=null;
+			LocalDate discontinued=null;
+			Company company=null;
 		try {
-
-			computer.setName(rs.getString("cmpt.name"));
-			computer.setIntroduced(rs.getDate("cmpt.introduced")!=null?rs.getDate("cmpt.introduced").toLocalDate():null);
-			computer.setDiscontinued(rs.getDate("cmpt.discontinued")!=null?rs.getDate("cmpt.discontinued").toLocalDate():null);
-			computer.setManufacturer(new Company(rs.getInt("cmpa.id"),rs.getString("cmpa.name")));
+			id=rs.getInt("cmpt.id");
+			name=rs.getString("cmpt.name");
+			introduced=rs.getDate("cmpt.introduced")!=null?rs.getDate("cmpt.introduced").toLocalDate():null;
+			discontinued=rs.getDate("cmpt.discontinued")!=null?rs.getDate("cmpt.discontinued").toLocalDate():null;
+			company=new Company(rs.getInt("cmpa.id"),rs.getString("cmpa.name"));
 		} catch (SQLException se) {
 			for(Throwable e : se) {
                 System.err.println("Erreurs : " + e);
             }
 		}
+		computer=new ComputerBuilder().id(id).name(name).introduced(introduced).discontinued(discontinued).company(company).build();
 		return computer;
 	}
 

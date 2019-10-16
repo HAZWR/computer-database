@@ -9,40 +9,31 @@ public class Company {
 	private int id;
 	private String name;
 	
+	public Company() {}
 	
-	private Company(CompanyBuilder comp) {
-		this.id=comp.id;
-		this.name=comp.name;
+	public Company(int id,String name) {
+		this.id=id;
+		this.name=name;
+	}
+	
+	public Company(String name) {
+		this.name=name;
 	}
 
 	public int getId() {
 		return id;
 	}
-
-
 	public String getName() {
 		return name;
 	}
 
-	private static class CompanyBuilder{
-		private int id;
-		private String name;
-		
-		public CompanyBuilder() {}
-		
-		public CompanyBuilder id(int id) {
-			this.id=id;
-			return this;
-		}
-		
-		public CompanyBuilder name(String name) {
-			this.name=name;
-			return this;
-		}
-		
-		public Company build() {
-			return new Company(this);
-		}
+	public void setId(int id) {
+		this.id = id;
 	}
 
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	
 }

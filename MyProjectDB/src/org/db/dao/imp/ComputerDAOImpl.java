@@ -117,7 +117,7 @@ public class ComputerDAOImpl implements ComputerDAO {
 
 	@Override
 	public Computer getComputerById(int id) {
-		Computer trouve=new Computer();
+		Computer trouve = null;
 		logger.log(Level.INFO,"Début de l'opération d'affichage d'ordinateur by id");
 		try {
 			logger.log(Level.INFO,"Lancement de l'opération d'affichage d'ordinateur by id");
@@ -126,7 +126,7 @@ public class ComputerDAOImpl implements ComputerDAO {
 			rs = prepared.executeQuery();
 			computerMapper=ComputerMapper.getInstance();
 			while (rs.next()) {
-				return computerMapper.convertSQLtoComputer(rs);
+			trouve=computerMapper.convertSQLtoComputer(rs);
 			}	
 			logger.log(Level.INFO,"Fin de l'opération d'affichage d'ordinateur by id");
 		} catch (SQLException se) {
