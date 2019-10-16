@@ -18,7 +18,7 @@ public class ConnectionBD {
 			connect = DriverManager.getConnection(url, user, passwd);
 		  else
 			connect = DriverManager.getConnection(urlH2,user,passwd);
-		} catch (SQLException e) {
+		}catch (SQLException e) {
 			e.printStackTrace();
 		}
 	}
