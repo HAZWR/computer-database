@@ -20,7 +20,7 @@ public class CompanyMapper {
 	}
         
 	public Company convertSQLtoCompany(ResultSet rs){
-		   Company comp=new Company();
+		   Company comp=new Company(new CompanyBuilder());
 		   try {
 			   comp.setId(rs.getInt("id"));
 			   comp.setName(rs.getString("name"));

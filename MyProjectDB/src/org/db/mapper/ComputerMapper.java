@@ -14,7 +14,7 @@ public class ComputerMapper {
 	
 	public static ComputerMapper getInstance() {
 		if(computerMap==null) {
-			computerMap=new ComputerMapper();
+			computerMap=new ComputerMapper();		
 		}
 		return computerMap;
 	}
@@ -22,7 +22,7 @@ public class ComputerMapper {
 	public Computer convertSQLtoComputer(ResultSet rs) {
 			Computer computer=new Computer();
 		try {
-			computer.setId(rs.getInt("cmpt.id"));
+
 			computer.setName(rs.getString("cmpt.name"));
 			computer.setIntroduced(rs.getDate("cmpt.introduced")!=null?rs.getDate("cmpt.introduced").toLocalDate():null);
 			computer.setDiscontinued(rs.getDate("cmpt.discontinued")!=null?rs.getDate("cmpt.discontinued").toLocalDate():null);
