@@ -35,13 +35,14 @@ public class ComputerDAOImpl implements ComputerDAO {
 	private ComputerMapper computerMapper;
 	
 	@Override
-	public void create(Computer nouveau) {
+	public boolean create(Computer nouveau) {
 		logger.log(Level.INFO,"Début de l'opération de création ");
 		int id=nouveau.getId();
 		String name = nouveau.getName();
 		LocalDate introduced=nouveau.getIntroduced();
 		LocalDate discontinued=nouveau.getDiscontinued();
 		String company_id=nouveau.getManufacturer().getName();
+		boolean bool=false;
 		try {
 			if (nouveau != null) {
 				prepared = ConnectionBD.getInstance().prepareStatement(createQuery);
@@ -53,17 +54,20 @@ public class ComputerDAOImpl implements ComputerDAO {
 				prepared.setString(5, company_id);
 				prepared.executeUpdate();
 				logger.log(Level.INFO,"Fin de l'opération de création");
+				bool=true;
 			}
 		} catch (SQLException se) {
 			for(Throwable e : se) {
                 System.err.println("Erreurs : " + e);
             }
 		}
+		return bool;
 	}
 
 	@Override
-	public void update(Computer comp) {
+	public boolean update(Computer comp) {
 		logger.log(Level.INFO,"Début de l'opération de modification");
+		boolean etat=false;
 		try {		
 			prepared=ConnectionBD.getInstance().prepareStatement(updateQuery);
 			logger.log(Level.INFO,"Lancement de l'opération de modification");
@@ -73,29 +77,34 @@ public class ComputerDAOImpl implements ComputerDAO {
 			prepared.setString(4,comp.getManufacturer().getName());
 			prepared.setInt(5, comp.getId());
 			prepared.execute(); 
+			etat=true;
 			logger.log(Level.INFO,"Fin de l'opération de modification");
 		}catch(SQLException se) {
 			for(Throwable e : se) {
                 System.err.println("Erreurs : " + e);
             }
 		}
+		return etat;
 	}
 
 	@Override
-	public void supprimer(int id) {
+	public boolean supprimer(int id) {
 		logger.log(Level.INFO,"Début de l'opération de suppression");
+		boolean etat=false;
 		try {
 			prepared = ConnectionBD.getInstance().prepareStatement(supprimerQuery);
 			logger.log(Level.INFO,"Lancement de l'opération de suppression");
 			prepared.setInt(1,id);
 			int relt = prepared.executeUpdate();
 			System.out.print(relt);
+			etat=true;
 			logger.log(Level.INFO,"Fin de l'opération de suppression");
 		} catch (SQLException se) {
 			for(Throwable e : se) {
                 System.err.println("Erreurs : " + e);
             }
 		}
+		return etat;
 	}
 	@Override
 	public List<Computer> getAllComputers() {

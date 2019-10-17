@@ -11,11 +11,11 @@ public interface ComputerDAO {
 
 	public Computer getComputerById(int id);
 
-	public void create(Computer nouveau);
+	public boolean create(Computer nouveau);
 
-	public void update(Computer comp);
+	public boolean update(Computer comp);
 
-	public void supprimer(int id);
+	public boolean supprimer(int id);
 	
 	public int count();
 

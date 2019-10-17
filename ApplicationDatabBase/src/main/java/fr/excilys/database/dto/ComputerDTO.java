@@ -2,13 +2,13 @@ package fr.excilys.database.dto;
 
 import java.time.LocalDate;
 
-public class Computer {
+public class ComputerDTO {
 	
 	private int id;
 	private String name;
 	private LocalDate introduced;
 	private LocalDate discontinued;
-	private Company company;
+	private CompanyDTO company;
 	public int getId() {
 		return id;
 	}
@@ -41,11 +41,11 @@ public class Computer {
 		this.discontinued = discontinued;
 	}
 	
-	public Company getCompany() {
+	public CompanyDTO getCompany() {
 		return company;
 	}
 	
-	public void setCompany(Company company) {
+	public void setCompany(CompanyDTO company) {
 		this.company = company;
 	}
 

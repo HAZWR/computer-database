@@ -1,6 +1,6 @@
 package fr.excilys.database.dto;
 
-public class Company {
+public class CompanyDTO {
 	
 	private int id;
 	private String name;
@@ -25,4 +25,5 @@ public class Company {
 	public String toString() {
 		return "Company [id=" + id + ", name=" + name + "]";
 	}
+	
 }

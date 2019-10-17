@@ -28,18 +28,18 @@ public class ComputerController {
 		}
 		
 		public void create(Computer comp) {			
-			compl.create(comp); 
+			boolean bool=compl.create(comp); 
 			System.out.println("Création efféctuée avec succès de l'ordinateur : "+comp.getName());
 		}
 		
 		public void update(Computer comp) {
-			compl.update(comp); 
+			boolean bool=compl.update(comp); 
 			System.out.println(comp.toString());
 			System.out.println("Modification efféctuée avec succès de l'ordinateur : "+comp.getName());
 		}
 		
 		public void supprimer(int id) {
-			compl.supprimer(id);
+			boolean bool=compl.supprimer(id);
 			System.out.println("Votre suppression est faite avec succès");
 		}
 		
