@@ -27,10 +27,10 @@ public class ComputerDAOImpl implements ComputerDAO {
     private final static String createQuery="INSERT INTO computer (id,name,introduced,discontinued,company_id) VALUES(?,?,?,?,(select id from company where name like ?))";
     private final static String updateQuery="UPDATE computer SET name=?,introduced=?,discontinued=?,company_id=(select id from company where name like ?) WHERE id=?";
     private final static String supprimerQuery="DELETE FROM computer WHERE id = ?";
-    private final static String getAllQuery="select * from computer AS cmpt LEFT JOIN company AS cmpa ON cmpt.company_id=cmpa.id";
-    private final static String getIdQuery="select * from computer AS cmpt LEFT JOIN company AS cmpa ON cmpt.company_id=cmpa.id where cmpt.id=?";
+    private final static String getAllQuery="select * from computer LEFT JOIN company ON computer.company_id=company.id";
+    private final static String getIdQuery="select * from computer  LEFT JOIN company ON computer.company_id=company.id where computer.id=?";
     private final static String getCount="select count(id) as nombre from computer";
-    private final static String getAllWithPaginatin="select * from computer AS cmpt LEFT JOIN company AS cmpa ON cmpt.company_id=cmpa.id LIMIT ? OFFSET ?";
+    private final static String getAllWithPaginatin="select * from computer  LEFT JOIN company  ON computer.company_id=company.id LIMIT ? OFFSET ?";
 	Logger logger=Logger.getLogger("my logger");
 	private ComputerMapper computerMapper;
 	
@@ -122,7 +122,7 @@ public class ComputerDAOImpl implements ComputerDAO {
 		Computer trouve = null;
 		logger.log(Level.INFO,"Début de l'opération d'affichage d'ordinateur by id");
 		try {
-			logger.log(Level.INFO,"Lancement de l'opération d'affichage d'ordinateur by id");
+		    logger.log(Level.INFO,"Lancement de l'opération d'affichage d'ordinateur by id");
 			prepared = ConnectionBD.getInstance().prepareStatement(getIdQuery);
 			prepared.setInt(1, id);
 			rs = prepared.executeQuery();

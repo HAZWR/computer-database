@@ -29,11 +29,11 @@ public class ComputerMapper {
 			LocalDate discontinued=null;
 			Company company=null;
 		try {
-			id=rs.getInt("cmpt.id");
-			name=rs.getString("cmpt.name");
-			introduced=rs.getDate("cmpt.introduced")!=null?rs.getDate("cmpt.introduced").toLocalDate():null;
-			discontinued=rs.getDate("cmpt.discontinued")!=null?rs.getDate("cmpt.discontinued").toLocalDate():null;
-			company=new Company(rs.getInt("cmpa.id"),rs.getString("cmpa.name"));
+			id=rs.getInt("computer.id");
+			name=rs.getString("computer.name");
+			introduced=rs.getDate("computer.introduced")!=null?rs.getDate("computer.introduced").toLocalDate():null;
+			discontinued=rs.getDate("computer.discontinued")!=null?rs.getDate("computer.discontinued").toLocalDate():null;
+			company=new Company(rs.getInt("company.id"),rs.getString("company.name"));
 		} catch (SQLException se) {
 			for(Throwable e : se) {
                 System.err.println("Erreurs : " + e);

@@ -7,7 +7,7 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
-import fr.excilys.database.dao.imp.CompanyDAOImpl;
+
 import fr.excilys.database.dao.imp.ComputerDAOImpl;
 import fr.excilys.database.model.Computer;
 
@@ -33,4 +33,24 @@ public class ComputerDAOTest {
 		computer.supprimer(id);
 	}
 	
+	@Test
+	public void testcreate() {
+		
+	}
+	
+	@Test
+	public void testgetComputerById() {
+		
+	}
+	
+	@Test
+	public void testupdate() {
+		
+	}
+	
+	@Test
+	public void testgetAllComputersPagination(){
+		
+		
+	}
 }
