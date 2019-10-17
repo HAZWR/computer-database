@@ -2,10 +2,8 @@ package fr.excilys.database.controller;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import fr.excilys.database.dao.imp.ComputerDAOImpl;
 import fr.excilys.database.model.Computer;
-
 
 public class ComputerController {
 	
@@ -50,6 +48,7 @@ public class ComputerController {
 			}
 			
 		}
+		
 		public void count() {
 	       int nombre=compl.count();
 	       System.out.println("Nombre d'ordinateurs : "+nombre);
