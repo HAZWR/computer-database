@@ -1,23 +1,15 @@
 
-import java.sql.*;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 import java.util.Scanner;
+import java.util.logging.Logger;
 
-import org.db.connection.ConnectionBD;
-import org.db.dao.imp.CompanyDAOImpl;
-import org.db.dao.imp.ComputerDAOImpl;
 import org.db.mapper.ConverterDate;
 import org.db.model.Company;
 import org.db.model.Computer;
+import org.db.model.Computer.ComputerBuilder;
 
 import com.db.controller.CompanyController;
 import com.db.controller.ComputerController;
-import java.util.logging.*;
-import org.db.model.Computer.ComputerBuilder;
 
 public class MainClass {
 	public static void main(String[] args) {
@@ -101,6 +93,8 @@ public class MainClass {
 		default:
 			System.out.println("Vous avez quitter la plateforme");
 		}
+		
+		scanner.close();
 	}
 		public static void monMenu() {
 			System.out.println("====================================================");

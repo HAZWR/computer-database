@@ -3,12 +3,12 @@ package fr.excilys.database.pagination;
 public class Page {
 	private int taille;
 	private int nombreLignes;
-	
-	public Page(int taille,int nombreLignes) {
-		this.taille=taille;
-		this.nombreLignes=nombreLignes;
+
+	public Page(int taille, int nombreLignes) {
+		this.taille = taille;
+		this.nombreLignes = nombreLignes;
 	}
-	
+
 	public int getTaille() {
 		return taille;
 	}

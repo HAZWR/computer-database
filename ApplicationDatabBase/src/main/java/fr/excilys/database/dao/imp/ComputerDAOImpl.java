@@ -4,7 +4,6 @@ package fr.excilys.database.dao.imp;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,7 +19,6 @@ import fr.excilys.database.model.Computer;
 
 public class ComputerDAOImpl implements ComputerDAO {
 	
-	private Statement statement = null;
 	private PreparedStatement prepared = null;
 	List<Computer> listComputers = new ArrayList<Computer>();
 	ResultSet rs = null;

@@ -22,7 +22,7 @@ public class ComputerDAOTest {
 		System.setProperty("testing","true");
 		computer=new ComputerDAOImpl();			
 	}
-	
+
 	@Test
 	public void testgetAllComputers() {
 		List<Computer> mycomputers=computer.getAllComputers();

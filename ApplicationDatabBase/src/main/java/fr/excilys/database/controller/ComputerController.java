@@ -6,17 +6,17 @@ import fr.excilys.database.dao.imp.ComputerDAOImpl;
 import fr.excilys.database.model.Computer;
 
 public class ComputerController {
-	
+
 		ComputerDAOImpl compl=new ComputerDAOImpl();
-		
+
 		public List<Computer> mylist=new ArrayList<Computer>();
-		
-		
+
+
 		public void getAllComputers() {
 			mylist=compl.getAllComputers();
 			for (Computer comp : mylist) {
 				System.out.println("Nom des computers : " + comp.getName());
-			}			
+			}
 		}
 		
 		public Computer getComputerById(int id) {
@@ -26,7 +26,7 @@ public class ComputerController {
 		}
 		
 		public void create(Computer comp) {			
-			boolean bool=compl.create(comp); 
+			boolean bool = compl.create(comp); 
 			System.out.println("Création efféctuée avec succès de l'ordinateur : "+comp.getName());
 		}
 		

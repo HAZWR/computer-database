@@ -4,7 +4,6 @@ package org.db.dao.imp;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,12 +14,10 @@ import org.db.connection.ConnectionBD;
 import org.db.dao.ComputerDAO;
 import org.db.mapper.ComputerMapper;
 import org.db.mapper.ConverterDate;
-import org.db.model.Company;
 import org.db.model.Computer;
 
 public class ComputerDAOImpl implements ComputerDAO {
 	
-	private Statement statement = null;
 	private PreparedStatement prepared = null;
 	List<Computer> listComputers = new ArrayList<Computer>();
 	ResultSet rs = null;

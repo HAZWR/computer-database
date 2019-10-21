@@ -5,7 +5,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class ConnectionBD {
-	private static String url = "jdbc:mysql://localhost:3306/computer-database-db?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
+	private static String url = "jdbc:mysql://localhost:3306/computer-database-db?serverTimezone=UTC";
 	private static String urlH2="jdbc:h2:mem:computer-database-db;INIT=RUNSCRIPT FROM '/home/excilys/Documents/h2Requests.sql'";
 	private static String user = "admincdb";
 	private static String passwd = "qwerty1234";
@@ -14,11 +14,17 @@ public class ConnectionBD {
 
 	private ConnectionBD() throws SQLException {
 		try {
-		  if(System.getProperty("testing").contentEquals("false"))
+		  if(System.getProperty("testing") != null && System.getProperty("testing").contentEquals("false")) {
+			Class.forName("com.mysql.cj.jdbc.Driver");
 			connect = DriverManager.getConnection(url, user, passwd);
-		  else
+		  }else {
 			connect = DriverManager.getConnection(urlH2,"","");
-		}catch (SQLException e) {
+			}
+		}catch (SQLException se) {
+			for(Throwable e : se) {
+                System.err.println("Erreurs : " + e);
+            }
+		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		}
 	}

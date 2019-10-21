@@ -1,7 +1,5 @@
 package fr.excilys.database.dto;
 
-import java.time.LocalDate;
-
 public class ComputerDTO {
 	
 	private int id;
