@@ -25,15 +25,14 @@
             <div id="actions" class="form-horizontal">
                 <div class="pull-left">
                     <form id="searchForm" action="#" method="GET" class="form-inline">
-
                         <input type="search" id="searchbox" name="search" class="form-control" placeholder="Search name" />
                         <input type="submit" id="searchsubmit" value="Filter by name"
                         class="btn btn-primary" />
                     </form>
                 </div>
                 <div class="pull-right">
-                    <a class="btn btn-success" id="addComputer" href="http://localhost:8080/ApplicationDatabBase/addComputer">Add Computer</a> 
-                    <a class="btn btn-default" id="editComputer" href="#" onclick="$.fn.toggleEditMode();">Edit</a>
+                    <a class="btn btn-success" id="addComputer" href="addComputer">Add Computer</a> 
+                    <a class="btn btn-default" id="editComputer" href="editComputer" onclick="$.fn.toggleEditMode();">Edit</a>
                 </div>
             </div>
         </div>
@@ -81,15 +80,12 @@
 							<td class="editMode"> 
 								<input type="checkbox" name="cb" class="cb" value="0">
 							</td>
-							<td><c:out value="${computer.getName()}" /></td>
-							<td><c:out value="${computer.getIntroduced()}" /></td>
-							<td><c:out value="${computer.getDiscontinued()}" /></td>
-							<td><c:out value="${computer.getManufacturer().getName()}" /></td>
+							<td><c:out value="${computer.name}" /></td>
+							<td><c:out value="${computer.introduced}" /></td>
+							<td><c:out value="${computer.discontinued}" /></td>
+							<td><c:out value="${computer.manufacturer.name}" /></td>
 						</tr>
-					</c:forEach>
-                   
-                 
-                    
+					</c:forEach>                   
                 </tbody>
             </table>
         </div>
@@ -122,9 +118,9 @@
         </div>
 </div>
     </footer>
-<script src="../js/jquery.min.js"></script>
-<script src="../js/bootstrap.min.js"></script>
-<script src="../js/dashboard.js"></script>
+<script src="js/jquery.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/dashboard.js"></script>
 
 </body>
 </html>

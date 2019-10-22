@@ -20,6 +20,10 @@ public class Company {
 		this.name=name;
 	}
 
+	public Company(int companyId) {
+		// TODO Auto-generated constructor stub
+	}
+
 	public int getId() {
 		return id;
 	}

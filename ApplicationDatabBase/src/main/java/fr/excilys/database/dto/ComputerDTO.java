@@ -6,7 +6,7 @@ public class ComputerDTO {
 	private String name;
 	private String introduced;
 	private String discontinued;
-	private CompanyDTO company;
+	private String company;
 	public int getId() {
 		return id;
 	}
@@ -38,12 +38,12 @@ public class ComputerDTO {
 	public void setDiscontinued(String discontinued) {
 		this.discontinued = discontinued;
 	}
-	
-	public CompanyDTO getCompany() {
+
+	public String getCompany() {
 		return company;
 	}
-	
-	public void setCompany(CompanyDTO company) {
+
+	public void setCompany(String company) {
 		this.company = company;
 	}
 

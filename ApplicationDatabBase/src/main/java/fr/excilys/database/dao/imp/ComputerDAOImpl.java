@@ -22,7 +22,7 @@ public class ComputerDAOImpl implements ComputerDAO {
 	private PreparedStatement prepared = null;
 	List<Computer> listComputers = new ArrayList<Computer>();
 	ResultSet rs = null;
-    private final static String createQuery="INSERT INTO computer (id,name,introduced,discontinued,company_id) VALUES(?,?,?,?,(select id from company where name like ?))";
+    private final static String createQuery="INSERT INTO computer (name,introduced,discontinued,company_id) VALUES(?,?,?,(select id from company where name like ?))";
     private final static String updateQuery="UPDATE computer SET name=?,introduced=?,discontinued=?,company_id=(select id from company where name like ?) WHERE id=?";
     private final static String supprimerQuery="DELETE FROM computer WHERE id = ?";
     private final static String getAllQuery="select * from computer LEFT JOIN company ON computer.company_id=company.id";
@@ -35,7 +35,6 @@ public class ComputerDAOImpl implements ComputerDAO {
 	@Override
 	public boolean create(Computer nouveau) {
 		logger.log(Level.INFO,"Début de l'opération de création ");
-		int id=nouveau.getId();
 		String name = nouveau.getName();
 		LocalDate introduced=nouveau.getIntroduced();
 		LocalDate discontinued=nouveau.getDiscontinued();
@@ -45,11 +44,10 @@ public class ComputerDAOImpl implements ComputerDAO {
 			if (nouveau != null) {
 				prepared = ConnectionBD.getInstance().prepareStatement(createQuery);
 				logger.log(Level.INFO,"Lancement de la requete de création ");
-				prepared.setInt(1, id);
-				prepared.setString(2, name);
-				prepared.setDate(3, ConverterDate.dateToSql(introduced));
-				prepared.setDate(4, ConverterDate.dateToSql(discontinued));
-				prepared.setString(5, company_id);
+				prepared.setString(1, name);
+				prepared.setDate(2, ConverterDate.dateToSql(introduced));
+				prepared.setDate(3, ConverterDate.dateToSql(discontinued));
+				prepared.setString(4, company_id);
 				prepared.executeUpdate();
 				logger.log(Level.INFO,"Fin de l'opération de création");
 				bool=true;
