@@ -47,15 +47,15 @@ public class addComputer extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		comp=new ComputerDAOImpl();
-		String nom=request.getParameter("nom")!=null?request.getParameter("nom"):null;
-		LocalDate introduced=request.getParameter("introducedDate")!=null?ConverterDate.StringDateToLocalDate(request.getParameter("introducedDate")):null;
-		LocalDate discontinued=request.getParameter("discontinuedDate")!=null?ConverterDate.StringDateToLocalDate(request.getParameter("discontinuedDate")):null;
+		String nom=request.getParameter("computerName")!=null?request.getParameter("computerName"):null;
+		LocalDate introduced=request.getParameter("introduced")!=null?ConverterDate.StringDateToLocalDate(request.getParameter("introduced")):null;
+		LocalDate discontinued=request.getParameter("discontinued")!=null?ConverterDate.StringDateToLocalDate(request.getParameter("discontinued")):null;
 		String companyId=request.getParameter("companyEntity")!=null?request.getParameter("companyEntity"):null;
 		boolean cr=comp.create(new ComputerBuilder().name(nom).introduced(introduced).discontinued(discontinued).company(new Company(0,companyId)).build());
 			if(cr==true)
-				logger.log(Level.INFO,"Création réussi dans la servlet AddComputer");
+				logger.log(Level.INFO,"Création réussie dans la servlet AddComputer");
 			else
-				logger.log(Level.INFO,"Création non réussi dans la servlet AddComputer");
+				logger.log(Level.INFO,"Création non réussie dans la servlet AddComputer");
 		doGet(request, response);
 	}
 
