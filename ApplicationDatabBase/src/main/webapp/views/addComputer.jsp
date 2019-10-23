@@ -15,11 +15,14 @@
 	href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
 <!-- Bootstrap -->
 <link href="css/bootstrap.min.css" rel="stylesheet" media="screen">
 <link href="css/font-awesome.css" rel="stylesheet" media="screen">
 <link href="css/main.css" rel="stylesheet" media="screen">
 <script type="text/javascript">
+console.log("tew")
 	$(function() {
 
 		$("#form").validate({
@@ -29,12 +32,20 @@
 					minlength : 5
 				},
 				introduced : {
-					required : false
+					required : false,
+					date:true,
 				},
 				discontinued : {
-					required : false
-				}
-			}
+					required : false,
+					date:true,
+				}	
+			},
+		   onchange:function(){
+				if(moment($('#introduced').val()).isAfter($('#discontinued').val())==true)
+			 		alert("veuillez saisir une date d'introduction inférieure à la date discontinued");
+				 else
+			        alert("sasie des dates adaptées");
+		   }
 		});
 		$('#form input').on('keyup', function() {
 			if ($('#form').valid()) {
@@ -43,15 +54,15 @@
 				$('#add"').prop('disabled', 'disabled');
 			}
 		});
-
-	});
+     });
+});
 </script>
 </head>
 <body>
 	<header class="navbar navbar-inverse navbar-fixed-top">
 		<div class="container">
-			<a class="navbar-brand" href="dashboard.jsp"> Application -
-				Computer Database </a>
+			<a class="navbar-brand" href="menu"> Application - Computer
+				Database </a>
 		</div>
 	</header>
 
