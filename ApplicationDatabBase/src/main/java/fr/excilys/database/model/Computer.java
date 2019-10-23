@@ -2,11 +2,31 @@ package fr.excilys.database.model;
 
 import java.time.LocalDate;
 
+import javax.validation.constraints.Future;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Past;
+import javax.validation.constraints.Positive;
+import javax.validation.constraints.Size;
+
+import fr.excilys.database.annotation.ValidDate;
+
 public class Computer {
+	@Positive
 	private int id; 
+	
+	@NotNull(message="Name can't be null")
+	@Size(min=5,max=50,message="La sasise devrait etre entre 10 et 20 caractères")
 	private String name;
+	
+	@NotNull(message="Introduced Date can't be null")
+	@ValidDate(comments="Date valide")
 	private LocalDate introduced;
+	
+	@NotNull(message="Discontinued Date can't be null")
+	@ValidDate(comments="Date valide")
 	private LocalDate discontinued;
+	
+	@NotNull(message="Company not null")
 	private Company manufacturer;
 
 	public Computer(ComputerBuilder builder) {
