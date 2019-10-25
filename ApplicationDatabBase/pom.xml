@@ -103,6 +103,11 @@
 	    <artifactId>javax.el</artifactId>
 	    <version>2.2.6</version>
 	</dependency>
+ 	<dependency>
+            <groupId>com.zaxxer</groupId>
+            <artifactId>HikariCP</artifactId>
+            <version>3.4.1</version>
+        </dependency>  
   </dependencies>
 <build>
     <finalName>computer-database-app</finalName>

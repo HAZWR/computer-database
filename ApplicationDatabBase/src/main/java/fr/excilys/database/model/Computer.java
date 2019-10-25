@@ -13,11 +13,9 @@ import fr.excilys.database.annotation.ValidDate;
 public class Computer {
 	@Positive
 	private int id; 
-	
 	@NotNull(message="Name can't be null")
 	@Size(min=5,max=50,message="La sasise devrait etre entre 10 et 20 caractères")
-	private String name;
-	
+
 	@NotNull(message="Introduced Date can't be null")
 	@ValidDate(comments="Date valide")
 	private LocalDate introduced;
