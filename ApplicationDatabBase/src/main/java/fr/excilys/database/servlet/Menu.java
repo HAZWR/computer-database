@@ -21,6 +21,7 @@ public class Menu extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private ComputerDAOImpl computer;
 	private List<Computer> listComputers;
+	private int nombre=0;
        
     /**
      * @see HttpServlet#HttpServlet()
@@ -37,6 +38,9 @@ public class Menu extends HttpServlet {
 		computer=new ComputerDAOImpl();
 		listComputers=computer.getAllComputers();
 		request.setAttribute("listComputers", listComputers);
+		nombre=computer.count();
+		System.out.println(nombre);
+		request.setAttribute("nombre",nombre);
 		this.getServletContext().getRequestDispatcher("/views/dashboard.jsp").forward(request, response);
 	}
 

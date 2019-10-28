@@ -27,7 +27,7 @@ public class ComputerDAOImpl implements ComputerDAO {
     private final static String supprimerQuery="DELETE FROM computer WHERE id = ?";
     private final static String getAllQuery="select * from computer LEFT JOIN company ON computer.company_id=company.id";
     private final static String getIdQuery="select * from computer  LEFT JOIN company ON computer.company_id=company.id where computer.id=?";
-    private final static String getCount="select count(id) as nombre from computer";
+    private final static String getCount="select count(*) as nombre from computer";
     private final static String getAllWithPaginatin="select * from computer  LEFT JOIN company  ON computer.company_id=company.id LIMIT ? OFFSET ?";
 	Logger logger=Logger.getLogger("my logger");
 	private ComputerMapper computerMapper;
@@ -149,7 +149,8 @@ public class ComputerDAOImpl implements ComputerDAO {
 		try {
 			prepared=ConnectionBD.getInstance().prepareStatement(getCount);
 			rs=prepared.executeQuery();
-			return rs.getInt("nombre");
+			if (rs.first()) {
+			return rs.getInt("nombre");}
 		} catch (SQLException se) {
 			for(Throwable e : se) {
                 System.err.println("Erreurs : " + e);
