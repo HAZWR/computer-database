@@ -32,13 +32,13 @@
                 </div>
                 <div class="pull-right">
                     <a class="btn btn-success" id="addComputer" href="addComputer">Add Computer</a> 
-                    <a class="btn btn-default" id="editComputer" href="editComputer" onclick="$.fn.toggleEditMode();" >Edit</a>
+                    <a class="btn btn-default" id="editComputer" href="#" onclick="$.fn.toggleEditMode();" >Edit</a>
                 </div>
             </div>
         </div>
 
-        <form id="deleteForm" action="#" method="POST">
-            <input type="hidden" name="selection" value="">
+        <form id="deleteForm" action="" method="POST">
+            <input type="hidden" name="selection" value='' >
         </form>
 
         <div class="container" style="margin-top: 10px;">
@@ -51,7 +51,7 @@
                         <th class="editMode" style="width: 60px; height: 22px;">
                             <input type="checkbox" id="selectall" /> 
                             <span style="vertical-align: top;">
-                                 -  <a href="menu" id="deleteSelected" onclick="menu">
+                                 -  <a href="menu" id="deleteSelected" onclick="$.fn.deleteSelected();">
                                         <i class="fa fa-trash-o fa-lg"></i>
                                     </a>
                             </span>
@@ -80,7 +80,7 @@
 							<td class="editMode"> 
 								<input  type="checkbox" name="cb" class="cb" value='<c:out value="${computer.id}"/>'>
 							</td>
-							<td><a href="editComputer?id=<c:out value="${computer.id}"/>"><c:out value="${computer.name}" /></a></td>
+							<td><a href="editComputer?id=<c:out value="${computer.id}"/>"><c:out value="${computer.name}"/></a></td>
 							<td><c:out value="${computer.introduced}" /></td>
 							<td><c:out value="${computer.discontinued}" /></td>
 							<td><c:out value="${computer.manufacturer.name}" /></td>

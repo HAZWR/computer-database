@@ -44,11 +44,14 @@ public class Menu extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		System.setProperty("testing","false");
-		computer=new ComputerDAOImpl();	
-		int valCheck=Integer.parseInt(request.getParameter("cb"));	
-		computer.supprimer(valCheck);
-		this.getServletContext().getRequestDispatcher("/views/dashboard.jsp").forward(request, response);	
+		String s=request.getParameter("selection");
+		String[] myValues=s.split(",");
+		System.out.println(s);
+		computer=new ComputerDAOImpl();
+		for(String val:myValues) {
+			System.out.println(val);
+			computer.supprimer(Integer.parseInt(val));
+		}
 		doGet(request, response);
 	}
 
