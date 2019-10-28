@@ -51,7 +51,7 @@
                         <th class="editMode" style="width: 60px; height: 22px;">
                             <input type="checkbox" id="selectall" /> 
                             <span style="vertical-align: top;">
-                                 -  <a href="deleteComputer" id="deleteSelected" onclick="$.fn.deleteSelected();">
+                                 -  <a href="menu" id="deleteSelected" onclick="menu">
                                         <i class="fa fa-trash-o fa-lg"></i>
                                     </a>
                             </span>
@@ -78,12 +78,12 @@
 					<c:forEach var="computer"  items="${listComputers}">
 						<tr>
 							<td class="editMode"> 
-								<input type="checkbox" name="cb" class="cb" value="0">
+								<input  type="checkbox" name="cb" class="cb" value='<c:out value="${computer.id}"/>'>
 							</td>
-							<td><c:out value="${computer.name}" /></td>
-							<td><c:out value="${computer.introduced}" /></td>
-							<td><c:out value="${computer.discontinued}" /></td>
-							<td><c:out value="${computer.manufacturer.name}" /></td>
+							<td name="nom"><c:out value="${computer.name}" /></td>
+							<td name="introduced"><c:out value="${computer.introduced}" /></td>
+							<td name="discontinued"><c:out value="${computer.discontinued}" /></td>
+							<td name="manufacturer"><c:out value="${computer.manufacturer.name}" /></td>
 						</tr>
 					</c:forEach>                   
                 </tbody>
