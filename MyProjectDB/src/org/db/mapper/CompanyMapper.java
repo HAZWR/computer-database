@@ -4,7 +4,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import org.db.model.Company;
-import org.db.model.Computer;
 
 public class CompanyMapper {
 	

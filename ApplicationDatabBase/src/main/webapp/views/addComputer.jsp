@@ -91,9 +91,9 @@ console.log("tew")
 							</div>
 							<div class="form-group">
 								<label for="companyId">Company</label> <select
-									class="form-control" id="companyId" name="companyName">
+									class="form-control" id="companyId" name="companyId">
 									<c:forEach var="company" items="${listCompanies}">
-										<option name="companyEntity" value="${company.id}"><c:out
+										<option value="${company.id}"><c:out
 												value="${company.name}" /></option>
 									</c:forEach>
 								</select>

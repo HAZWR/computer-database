@@ -10,7 +10,7 @@ import com.zaxxer.hikari.HikariDataSource;
 public class ConnectionBD {
 	private static String urlH2="jdbc:h2:mem:computer-database-db;INIT=RUNSCRIPT FROM '/home/excilys/Documents/h2Requests.sql'";
 	private static Connection connect;
-	private String configFile= "src/main/resources/db.properties";
+	private String configFile= "/db.properties";
 	private HikariConfig cfg;
 	private HikariDataSource ds;
 

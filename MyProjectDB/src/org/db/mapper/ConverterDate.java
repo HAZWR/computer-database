@@ -3,7 +3,7 @@ package org.db.mapper;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.Optional;
+
 
 public class ConverterDate {
 	public static Date dateToSql(LocalDate date) {

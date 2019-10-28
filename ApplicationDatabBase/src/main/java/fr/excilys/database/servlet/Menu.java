@@ -2,7 +2,6 @@ package fr.excilys.database.servlet;
 
 
 import java.io.IOException;
-import java.time.LocalDate;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -12,7 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import fr.excilys.database.model.Computer;
 import fr.excilys.database.dao.imp.ComputerDAOImpl;
-import fr.excilys.database.mapper.ConverterDate;
+
 
 /**
  * Servlet implementation class test

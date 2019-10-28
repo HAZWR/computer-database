@@ -50,7 +50,7 @@ public class addComputer extends HttpServlet {
 		String nom=request.getParameter("computerName")!=null?request.getParameter("computerName"):null;
 		LocalDate introduced=request.getParameter("introduced")!=null?ConverterDate.StringDateToLocalDate(request.getParameter("introduced")):null;
 		LocalDate discontinued=request.getParameter("discontinued")!=null?ConverterDate.StringDateToLocalDate(request.getParameter("discontinued")):null;
-		String companyId=request.getParameter("companyEntity")!=null?request.getParameter("companyEntity"):null;
+		String companyId=request.getParameter("companyId")!=null?request.getParameter("companyId"):null;
 		boolean cr=comp.create(new ComputerBuilder().name(nom).introduced(introduced).discontinued(discontinued).company(new Company(0,companyId)).build());
 			if(cr==true)
 				logger.log(Level.INFO,"Création réussie dans la servlet AddComputer");

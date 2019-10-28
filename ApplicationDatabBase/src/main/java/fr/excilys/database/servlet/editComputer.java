@@ -16,6 +16,7 @@ import fr.excilys.database.dao.imp.CompanyDAOImpl;
 import fr.excilys.database.dao.imp.ComputerDAOImpl;
 import fr.excilys.database.mapper.ConverterDate;
 import fr.excilys.database.model.Company;
+import fr.excilys.database.model.Computer;
 import fr.excilys.database.model.Computer.ComputerBuilder;
 
 /**
@@ -33,7 +34,6 @@ public class editComputer extends HttpServlet {
      */
     public editComputer() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
 	/**
@@ -44,6 +44,12 @@ public class editComputer extends HttpServlet {
 		compa=new CompanyDAOImpl();
 		listCompanies=compa.getAllCompanies();
 		request.setAttribute("listCompanies",listCompanies);
+		comp=new ComputerDAOImpl();
+		if(request.getParameter("id")!=null) {
+			int id=Integer.parseInt(request.getParameter("id"));
+		Computer ordi=comp.getComputerById(id);
+		request.setAttribute("ordi", ordi);
+		}	
 		this.getServletContext().getRequestDispatcher("/views/editComputer.jsp").forward(request, response);
 	}
 
@@ -51,12 +57,12 @@ public class editComputer extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		comp=new ComputerDAOImpl();
+		int id=request.getParameter("id")!=null?Integer.parseInt(request.getParameter("id")):null;
 		String nom=request.getParameter("nom")!=null?request.getParameter("nom"):null;
-		LocalDate introduced=request.getParameter("introducedDate")!=null?ConverterDate.StringDateToLocalDate(request.getParameter("introducedDate")):null;
-		LocalDate discontinued=request.getParameter("discontinuedDate")!=null?ConverterDate.StringDateToLocalDate(request.getParameter("discontinuedDate")):null;
-		String companyId=request.getParameter("companyEntity")!=null?request.getParameter("companyEntity"):null;
-		boolean cr=comp.create(new ComputerBuilder().name(nom).introduced(introduced).discontinued(discontinued).company(new Company(0,companyId)).build());
+		LocalDate introduced=request.getParameter("introduced")!=null?ConverterDate.StringDateToLocalDate(request.getParameter("introduced")):null;
+		LocalDate discontinued=request.getParameter("discontinued")!=null?ConverterDate.StringDateToLocalDate(request.getParameter("discontinued")):null;
+		String companyId=request.getParameter("companyId")!=null?request.getParameter("companyId"):null;
+		boolean cr=comp.update(new ComputerBuilder().id(id).name(nom).introduced(introduced).discontinued(discontinued).company(new Company(0,companyId)).build());
 			if(cr==true)
 				logger.log(Level.INFO,"Création réussi dans la servlet AddComputer");
 			else

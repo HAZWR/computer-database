@@ -29,7 +29,6 @@ public class Company {
 	}
 
 	public Company(int companyId) {
-		// TODO Auto-generated constructor stub
 	}
 
 	public int getId() {

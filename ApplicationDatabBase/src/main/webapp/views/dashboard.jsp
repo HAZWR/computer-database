@@ -32,7 +32,7 @@
                 </div>
                 <div class="pull-right">
                     <a class="btn btn-success" id="addComputer" href="addComputer">Add Computer</a> 
-                    <a class="btn btn-default" id="editComputer" href="editComputer" onclick="$.fn.toggleEditMode();">Edit</a>
+                    <a class="btn btn-default" id="editComputer" href="editComputer" onclick="$.fn.toggleEditMode();" >Edit</a>
                 </div>
             </div>
         </div>
@@ -80,10 +80,10 @@
 							<td class="editMode"> 
 								<input  type="checkbox" name="cb" class="cb" value='<c:out value="${computer.id}"/>'>
 							</td>
-							<td name="nom"><c:out value="${computer.name}" /></td>
-							<td name="introduced"><c:out value="${computer.introduced}" /></td>
-							<td name="discontinued"><c:out value="${computer.discontinued}" /></td>
-							<td name="manufacturer"><c:out value="${computer.manufacturer.name}" /></td>
+							<td><a href="editComputer?id=<c:out value="${computer.id}"/>"><c:out value="${computer.name}" /></a></td>
+							<td><c:out value="${computer.introduced}" /></td>
+							<td><c:out value="${computer.discontinued}" /></td>
+							<td><c:out value="${computer.manufacturer.name}" /></td>
 						</tr>
 					</c:forEach>                   
                 </tbody>

@@ -5,7 +5,6 @@ import java.util.List;
 
 import org.db.dao.imp.CompanyDAOImpl;
 import org.db.model.Company;
-import org.db.model.Computer;
 
 public class CompanyController {
 	
