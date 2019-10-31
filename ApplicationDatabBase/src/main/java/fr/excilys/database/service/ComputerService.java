@@ -1,12 +1,14 @@
 package fr.excilys.database.service;
 
 import java.util.List;
+
+import fr.excilys.database.dao.ComputerDAO;
 import fr.excilys.database.dao.imp.ComputerDAOImpl;
 import fr.excilys.database.model.Computer;
 
 public class ComputerService {
 
-		private ComputerDAOImpl computerDAO=new ComputerDAOImpl();
+		private ComputerDAO computerDAO=new ComputerDAOImpl();
 
 		public List<Computer> getAllComputers() {
 			return computerDAO.getAllComputers();
