@@ -19,7 +19,6 @@ public class MainClass {
 		int nombre = scanner.nextInt(); 
 		CompanyController companyImpl = new CompanyController();
 		ComputerController computerImpl = new ComputerController();
-		final Logger myloger=Logger.getLogger(MainClass.class.getName());
 		switch (nombre) {
 		case 1:
 			System.out.println("Liste des companies : \n");
@@ -52,8 +51,6 @@ public class MainClass {
 			break;
 		case 5:
 			System.out.println("Veuillez saisir un id pour l'ordinateur à modifier");
-			int idUpdate=scanner.nextInt();
-			Computer comp=computerImpl.getComputerById(idUpdate);
 			System.out.println("Veuillez saisir un id \n");
 			int id1=scanner.nextInt();
 			System.out.println("Veuillez saisir un nom \n");
