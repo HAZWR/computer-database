@@ -20,6 +20,8 @@ import fr.excilys.database.mapper.ConverterDate;
 import fr.excilys.database.model.Company;
 import fr.excilys.database.model.Computer;
 import fr.excilys.database.model.Computer.ComputerBuilder;
+import fr.excilys.database.service.CompanyService;
+import fr.excilys.database.service.ComputerService;
 
 /**
  * Servlet implementation class editComputer
@@ -28,8 +30,8 @@ import fr.excilys.database.model.Computer.ComputerBuilder;
 @WebServlet("/editComputer")
 public class editComputer extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	ComputerDAOImpl comp;
-	CompanyDAOImpl compa;
+	ComputerService computerService;
+	CompanyService companyService;
 	List<Company> listCompanies; 
 	Logger logger=Logger.getLogger("my logger");
     /**
@@ -44,13 +46,13 @@ public class editComputer extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		System.setProperty("testing","false");
-		compa=new CompanyDAOImpl();
-		listCompanies=compa.getAllCompanies();
+		companyService=new CompanyService();
+		listCompanies=companyService.getAllCompanies();
 		request.setAttribute("listCompanies",listCompanies);
-		comp=new ComputerDAOImpl();
+		computerService=new ComputerService();
 		if(request.getParameter("id")!=null) {
 			int id=Integer.parseInt(request.getParameter("id"));
-		Computer ordi=comp.getComputerById(id);
+		Computer ordi=computerService.getComputerById(id);
 		request.setAttribute("ordi", ordi);
 		}	
 		this.getServletContext().getRequestDispatcher("/views/editComputer.jsp").forward(request, response);
@@ -65,7 +67,7 @@ public class editComputer extends HttpServlet {
 		LocalDate introduced=request.getParameter("introduced")!=null?ConverterDate.StringDateToLocalDate(request.getParameter("introduced")):null;
 		LocalDate discontinued=request.getParameter("discontinued")!=null?ConverterDate.StringDateToLocalDate(request.getParameter("discontinued")):null;
 		String companyId=request.getParameter("companyId")!=null?request.getParameter("companyId"):null;
-		boolean cr=comp.update(new ComputerBuilder().id(id).name(nom).introduced(introduced).discontinued(discontinued).company(new Company(0,companyId)).build());
+		boolean cr=computerService.update(new ComputerBuilder().id(id).name(nom).introduced(introduced).discontinued(discontinued).company(new Company(0,companyId)).build());
 			if(cr==true)
 				logger.log(Level.INFO,"Création réussi dans la servlet AddComputer");
 			else

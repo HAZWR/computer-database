@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.stereotype.Controller;
 
 import fr.excilys.database.model.Computer;
+import fr.excilys.database.service.ComputerService;
 import fr.excilys.database.dao.imp.ComputerDAOImpl;
 
 
@@ -23,7 +24,7 @@ import fr.excilys.database.dao.imp.ComputerDAOImpl;
 @WebServlet("/menu")
 public class Menu extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private ComputerDAOImpl computer;
+	private ComputerService computerService;
 	private List<Computer> listComputers;
 	private int nombre=0;
        
@@ -39,10 +40,10 @@ public class Menu extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		System.setProperty("testing","false");
-		computer=new ComputerDAOImpl();
-		listComputers=computer.getAllComputers();
+		computerService=new ComputerService();
+		listComputers=computerService.getAllComputers();
 		request.setAttribute("listComputers", listComputers);
-		nombre=computer.count();
+		nombre=computerService.count();
 		System.out.println(nombre);
 		request.setAttribute("nombre",nombre);
 		this.getServletContext().getRequestDispatcher("/views/dashboard.jsp").forward(request, response);
@@ -55,10 +56,10 @@ public class Menu extends HttpServlet {
 		String s=request.getParameter("selection");
 		String[] myValues=s.split(",");
 		System.out.println(s);
-		computer=new ComputerDAOImpl();
+		computerService=new ComputerService();
 		for(String val:myValues) {
 			System.out.println(val);
-			computer.supprimer(Integer.parseInt(val));
+			computerService.supprimer(Integer.parseInt(val));
 		}
 		doGet(request, response);
 	}
