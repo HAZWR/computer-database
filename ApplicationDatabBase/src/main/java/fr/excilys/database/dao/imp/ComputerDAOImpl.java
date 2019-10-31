@@ -4,7 +4,6 @@ package fr.excilys.database.dao.imp;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -20,8 +19,6 @@ import fr.excilys.database.model.Computer;
 
 @Component
 public class ComputerDAOImpl implements ComputerDAO {
-	
-	private PreparedStatement prepared = null;
 	List<Computer> listComputers = new ArrayList<Computer>();
 	ResultSet rs = null;
     private final static String createQuery="INSERT INTO computer (name,introduced,discontinued,company_id) VALUES(?,?,?,(select id from company where name like ?))";
@@ -35,21 +32,16 @@ public class ComputerDAOImpl implements ComputerDAO {
 	private ComputerMapper computerMapper;
 	
 	@Override
-	public boolean create(Computer nouveau) {
+	public boolean create(Computer computer) {
 		logger.log(Level.INFO,"Début de l'opération de création ");
-		String name = nouveau.getName();
-		LocalDate introduced=nouveau.getIntroduced();
-		LocalDate discontinued=nouveau.getDiscontinued();
-		String company_id=nouveau.getManufacturer().getName();
 		boolean bool=false;
-		try {
-			if (nouveau != null) {
-				prepared = ConnectionBD.getInstance().prepareStatement(createQuery);
+		try(PreparedStatement prepared = ConnectionBD.getInstance().prepareStatement(createQuery);) {
+			if (computer != null) {
 				logger.log(Level.INFO,"Lancement de la requete de création ");
-				prepared.setString(1, name);
-				prepared.setDate(2, ConverterDate.dateToSql(introduced));
-				prepared.setDate(3, ConverterDate.dateToSql(discontinued));
-				prepared.setString(4, company_id);
+				prepared.setString(1, computer.getName());
+				prepared.setDate(2, ConverterDate.dateToSql(computer.getIntroduced()));
+				prepared.setDate(3, ConverterDate.dateToSql(computer.getDiscontinued()));
+				prepared.setString(4, computer.getManufacturer().getName());
 				prepared.executeUpdate();
 				logger.log(Level.INFO,"Fin de l'opération de création");
 				bool=true;
@@ -63,17 +55,16 @@ public class ComputerDAOImpl implements ComputerDAO {
 	}
 
 	@Override
-	public boolean update(Computer comp) {
+	public boolean update(Computer computer) {
 		logger.log(Level.INFO,"Début de l'opération de modification");
 		boolean etat=false;
-		try {		
-			prepared=ConnectionBD.getInstance().prepareStatement(updateQuery);
+		try(PreparedStatement prepared=ConnectionBD.getInstance().prepareStatement(updateQuery);) {		
 			logger.log(Level.INFO,"Lancement de l'opération de modification");
-			prepared.setString(1,comp.getName());
-			prepared.setDate(2,ConverterDate.dateToSql(comp.getIntroduced())); 
-			prepared.setDate(3,ConverterDate.dateToSql(comp.getDiscontinued()));
-			prepared.setString(4,comp.getManufacturer().getName());
-			prepared.setInt(5, comp.getId());
+			prepared.setString(1,computer.getName());
+			prepared.setDate(2,ConverterDate.dateToSql(computer.getIntroduced())); 
+			prepared.setDate(3,ConverterDate.dateToSql(computer.getDiscontinued()));
+			prepared.setString(4,computer.getManufacturer().getName());
+			prepared.setInt(5, computer.getId());
 			prepared.execute(); 
 			etat=true;
 			logger.log(Level.INFO,"Fin de l'opération de modification");
@@ -89,8 +80,7 @@ public class ComputerDAOImpl implements ComputerDAO {
 	public boolean supprimer(int id) {
 		logger.log(Level.INFO,"Début de l'opération de suppression");
 		boolean etat=false;
-		try {
-			prepared = ConnectionBD.getInstance().prepareStatement(supprimerQuery);
+		try (PreparedStatement prepared = ConnectionBD.getInstance().prepareStatement(supprimerQuery); ){
 			logger.log(Level.INFO,"Lancement de l'opération de suppression");
 			prepared.setInt(1,id);
 			int relt = prepared.executeUpdate();
@@ -107,8 +97,7 @@ public class ComputerDAOImpl implements ComputerDAO {
 	@Override
 	public List<Computer> getAllComputers() {
 		logger.log(Level.INFO,"Début de l'opération d'affichage d'ordinateurs");
-		try {
-			prepared = ConnectionBD.getInstance().prepareStatement(getAllQuery);
+		try (PreparedStatement prepared = ConnectionBD.getInstance().prepareStatement(getAllQuery); ){
 			rs = prepared.executeQuery();
 			logger.log(Level.INFO,"Lancement de l'opération d'affichage d'ordinateurs");
 			computerMapper=ComputerMapper.getInstance();
@@ -128,9 +117,8 @@ public class ComputerDAOImpl implements ComputerDAO {
 	public Computer getComputerById(int id) {
 		Computer trouve = null;
 		logger.log(Level.INFO,"Début de l'opération d'affichage d'ordinateur by id");
-		try {
+		try(PreparedStatement prepared = ConnectionBD.getInstance().prepareStatement(getIdQuery);) {
 		    logger.log(Level.INFO,"Lancement de l'opération d'affichage d'ordinateur by id");
-			prepared = ConnectionBD.getInstance().prepareStatement(getIdQuery);
 			prepared.setInt(1, id);
 			rs = prepared.executeQuery();
 			computerMapper=ComputerMapper.getInstance();
@@ -148,11 +136,11 @@ public class ComputerDAOImpl implements ComputerDAO {
 
 	@Override
 	public int count() {
-		try {
-			prepared=ConnectionBD.getInstance().prepareStatement(getCount);
+		try(PreparedStatement prepared=ConnectionBD.getInstance().prepareStatement(getCount);) {
 			rs=prepared.executeQuery();
 			if (rs.first()) {
-			return rs.getInt("nombre");}
+			return rs.getInt("nombre");
+			}
 		} catch (SQLException se) {
 			for(Throwable e : se) {
                 System.err.println("Erreurs : " + e);
@@ -165,9 +153,8 @@ public class ComputerDAOImpl implements ComputerDAO {
 	@Override
 	public List<Computer> getAllComputersPagination(int nombre,int offset) {
 		logger.log(Level.INFO,"Début de l'opération d'affichage d'ordinateurs avec pagination");
-		try {
+		try (PreparedStatement prepared=ConnectionBD.getInstance().prepareStatement(getAllWithPaginatin); ){
 			logger.log(Level.INFO,"Lancement de l'opération d'affichage d'ordinateurs avec pagination");
-			prepared=ConnectionBD.getInstance().prepareStatement(getAllWithPaginatin);
 			prepared.setInt(1, nombre);
 			prepared.setInt(2, offset);
 			rs=prepared.executeQuery();
@@ -184,7 +171,5 @@ public class ComputerDAOImpl implements ComputerDAO {
 		}
 		return null;
 	}
-	
-	
 
 }
