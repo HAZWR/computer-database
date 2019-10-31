@@ -9,7 +9,8 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.springframework.stereotype.Component;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 import fr.excilys.database.connection.ConnectionBD;
 import fr.excilys.database.dao.ComputerDAO;
@@ -17,10 +18,10 @@ import fr.excilys.database.mapper.ComputerMapper;
 import fr.excilys.database.mapper.ConverterDate;
 import fr.excilys.database.model.Computer;
 
-@Component
+@Repository
 public class ComputerDAOImpl implements ComputerDAO {
-	List<Computer> listComputers = new ArrayList<Computer>();
-	ResultSet rs = null;
+	private List<Computer> listComputers = new ArrayList<Computer>();
+	private ResultSet rs = null;
     private final static String createQuery="INSERT INTO computer (name,introduced,discontinued,company_id) VALUES(?,?,?,(select id from company where name like ?))";
     private final static String updateQuery="UPDATE computer SET name=?,introduced=?,discontinued=?,company_id=(select id from company where name like ?) WHERE id=?";
     private final static String supprimerQuery="DELETE FROM computer WHERE id = ?";
@@ -28,14 +29,16 @@ public class ComputerDAOImpl implements ComputerDAO {
     private final static String getIdQuery="select * from computer  LEFT JOIN company ON computer.company_id=company.id where computer.id=?";
     private final static String getCount="select count(*) as nombre from computer";
     private final static String getAllWithPaginatin="select * from computer  LEFT JOIN company  ON computer.company_id=company.id LIMIT ? OFFSET ?";
-	Logger logger=Logger.getLogger("my logger");
+	private Logger logger=Logger.getLogger("my logger");
 	private ComputerMapper computerMapper;
+	@Autowired
+	private ConnectionBD connection;
 	
 	@Override
-	public boolean create(Computer computer) {
+	public boolean create(Computer computer){
 		logger.log(Level.INFO,"Début de l'opération de création ");
 		boolean bool=false;
-		try(PreparedStatement prepared = ConnectionBD.getInstance().prepareStatement(createQuery);) {
+		try(PreparedStatement prepared =connection.getConnection().prepareStatement(createQuery);) {
 			if (computer != null) {
 				logger.log(Level.INFO,"Lancement de la requete de création ");
 				prepared.setString(1, computer.getName());
@@ -50,15 +53,17 @@ public class ComputerDAOImpl implements ComputerDAO {
 			for(Throwable e : se) {
                 System.err.println("Erreurs : " + e);
             }
+		}finally{
+			ConnectionBD.closeConnection();
 		}
 		return bool;
 	}
 
 	@Override
-	public boolean update(Computer computer) {
+	public boolean update(Computer computer){
 		logger.log(Level.INFO,"Début de l'opération de modification");
 		boolean etat=false;
-		try(PreparedStatement prepared=ConnectionBD.getInstance().prepareStatement(updateQuery);) {		
+		try(PreparedStatement prepared=connection.getConnection().prepareStatement(updateQuery);) {		
 			logger.log(Level.INFO,"Lancement de l'opération de modification");
 			prepared.setString(1,computer.getName());
 			prepared.setDate(2,ConverterDate.dateToSql(computer.getIntroduced())); 
@@ -72,15 +77,17 @@ public class ComputerDAOImpl implements ComputerDAO {
 			for(Throwable e : se) {
                 System.err.println("Erreurs : " + e);
             }
+		}finally{
+			ConnectionBD.closeConnection();
 		}
 		return etat;
 	}
 
 	@Override
-	public boolean supprimer(int id) {
+	public boolean supprimer(int id){
 		logger.log(Level.INFO,"Début de l'opération de suppression");
 		boolean etat=false;
-		try (PreparedStatement prepared = ConnectionBD.getInstance().prepareStatement(supprimerQuery); ){
+		try (PreparedStatement prepared = connection.getConnection().prepareStatement(supprimerQuery); ){
 			logger.log(Level.INFO,"Lancement de l'opération de suppression");
 			prepared.setInt(1,id);
 			int relt = prepared.executeUpdate();
@@ -91,13 +98,15 @@ public class ComputerDAOImpl implements ComputerDAO {
 			for(Throwable e : se) {
                 System.err.println("Erreurs : " + e);
             }
+		}finally{
+			ConnectionBD.closeConnection();
 		}
 		return etat;
 	}
 	@Override
-	public List<Computer> getAllComputers() {
+	public List<Computer> getAllComputers(){
 		logger.log(Level.INFO,"Début de l'opération d'affichage d'ordinateurs");
-		try (PreparedStatement prepared = ConnectionBD.getInstance().prepareStatement(getAllQuery); ){
+		try (PreparedStatement prepared = connection.getConnection().prepareStatement(getAllQuery); ){
 			rs = prepared.executeQuery();
 			logger.log(Level.INFO,"Lancement de l'opération d'affichage d'ordinateurs");
 			computerMapper=ComputerMapper.getInstance();
@@ -109,15 +118,17 @@ public class ComputerDAOImpl implements ComputerDAO {
 			for(Throwable e : se) {
                 System.err.println("Erreurs : " + e);
             }
+		}finally{
+			ConnectionBD.closeConnection();
 		}
 		return listComputers;
 	}
 
 	@Override
-	public Computer getComputerById(int id) {
+	public Computer getComputerById(int id){
 		Computer trouve = null;
 		logger.log(Level.INFO,"Début de l'opération d'affichage d'ordinateur by id");
-		try(PreparedStatement prepared = ConnectionBD.getInstance().prepareStatement(getIdQuery);) {
+		try(PreparedStatement prepared = connection.getConnection().prepareStatement(getIdQuery);) {
 		    logger.log(Level.INFO,"Lancement de l'opération d'affichage d'ordinateur by id");
 			prepared.setInt(1, id);
 			rs = prepared.executeQuery();
@@ -130,13 +141,15 @@ public class ComputerDAOImpl implements ComputerDAO {
 			for(Throwable e : se) {
                 System.err.println("Erreurs : " + e);
             }
+		}finally{
+			ConnectionBD.closeConnection();
 		}
 		return trouve;
 	}
 
 	@Override
-	public int count() {
-		try(PreparedStatement prepared=ConnectionBD.getInstance().prepareStatement(getCount);) {
+	public int count(){
+		try(PreparedStatement prepared=connection.getConnection().prepareStatement(getCount);) {
 			rs=prepared.executeQuery();
 			if (rs.first()) {
 			return rs.getInt("nombre");
@@ -145,15 +158,17 @@ public class ComputerDAOImpl implements ComputerDAO {
 			for(Throwable e : se) {
                 System.err.println("Erreurs : " + e);
             }
+		}finally{
+			ConnectionBD.closeConnection();
 		}
 		
 		return 0;
 	}
 
 	@Override
-	public List<Computer> getAllComputersPagination(int nombre,int offset) {
+	public List<Computer> getAllComputersPagination(int nombre,int offset){
 		logger.log(Level.INFO,"Début de l'opération d'affichage d'ordinateurs avec pagination");
-		try (PreparedStatement prepared=ConnectionBD.getInstance().prepareStatement(getAllWithPaginatin); ){
+		try (PreparedStatement prepared=connection.getConnection().prepareStatement(getAllWithPaginatin); ){
 			logger.log(Level.INFO,"Lancement de l'opération d'affichage d'ordinateurs avec pagination");
 			prepared.setInt(1, nombre);
 			prepared.setInt(2, offset);
@@ -168,6 +183,8 @@ public class ComputerDAOImpl implements ComputerDAO {
 			for(Throwable e : se) {
                 System.err.println("Erreurs : " + e);
             }
+		}finally{
+			ConnectionBD.closeConnection();
 		}
 		return null;
 	}

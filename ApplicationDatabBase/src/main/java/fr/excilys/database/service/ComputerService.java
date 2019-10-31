@@ -2,19 +2,23 @@ package fr.excilys.database.service;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import fr.excilys.database.dao.ComputerDAO;
-import fr.excilys.database.dao.imp.ComputerDAOImpl;
 import fr.excilys.database.model.Computer;
 
+@Service
 public class ComputerService {
 
-		private ComputerDAO computerDAO=new ComputerDAOImpl();
+	    @Autowired
+		private ComputerDAO computerDAO;
 
 		public List<Computer> getAllComputers() {
 			return computerDAO.getAllComputers();
 		}
 		
-		public Computer getComputerById(int id) {
+		public Computer getComputerById(int id)  {
 			return computerDAO.getComputerById(id);
 		}
 		
@@ -26,11 +30,11 @@ public class ComputerService {
 			return computerDAO.update(comp); 
 		}
 		
-		public boolean supprimer(int id) {
+		public boolean supprimer(int id)  {
 			return computerDAO.supprimer(id);
 		}
 		
-		public List<Computer> getAllComputersPagination(int nblignes,int offset) {
+		public List<Computer> getAllComputersPagination(int nblignes,int offset)  {
 			return computerDAO.getAllComputersPagination(nblignes, offset);
 		}
 		
