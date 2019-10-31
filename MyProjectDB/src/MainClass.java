@@ -1,11 +1,9 @@
 
 import java.time.LocalDate;
 import java.util.Scanner;
-import java.util.logging.Logger;
 
 import org.db.mapper.ConverterDate;
 import org.db.model.Company;
-import org.db.model.Computer;
 import org.db.model.Computer.ComputerBuilder;
 
 import com.db.controller.CompanyController;

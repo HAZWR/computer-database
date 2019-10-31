@@ -9,6 +9,9 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import org.springframework.stereotype.Controller;
+
 import fr.excilys.database.model.Computer;
 import fr.excilys.database.dao.imp.ComputerDAOImpl;
 
@@ -16,6 +19,7 @@ import fr.excilys.database.dao.imp.ComputerDAOImpl;
 /**
  * Servlet implementation class test
  */
+@Controller
 @WebServlet("/menu")
 public class Menu extends HttpServlet {
 	private static final long serialVersionUID = 1L;

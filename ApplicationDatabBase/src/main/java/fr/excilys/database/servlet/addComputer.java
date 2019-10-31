@@ -12,18 +12,21 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.stereotype.Controller;
+
 import fr.excilys.database.dao.imp.CompanyDAOImpl;
 import fr.excilys.database.dao.imp.ComputerDAOImpl;
 import fr.excilys.database.mapper.ConverterDate;
 import fr.excilys.database.model.Company;
 import fr.excilys.database.model.Computer.ComputerBuilder;
+@Controller
 @WebServlet("/addComputer")
 public class addComputer extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	ComputerDAOImpl comp;
-	CompanyDAOImpl compa;
-	List<Company> listCompanies;
-	Logger logger=Logger.getLogger("my logger"); 
+	private ComputerDAOImpl comp;
+	private CompanyDAOImpl compa;
+	private List<Company> listCompanies;
+	private Logger logger=Logger.getLogger("my logger"); 
     /**
      * @see HttpServlet#HttpServlet()
      */

@@ -2,12 +2,12 @@ package fr.excilys.database;
 import java.time.LocalDate;
 import java.util.Scanner;
 
-import fr.excilys.database.controller.CompanyController;
-import fr.excilys.database.controller.ComputerController;
 import fr.excilys.database.mapper.ConverterDate;
 import fr.excilys.database.model.Company;
 import fr.excilys.database.model.Computer;
 import fr.excilys.database.model.Computer.ComputerBuilder;
+import fr.excilys.database.service.CompanyService;
+import fr.excilys.database.service.ComputerService;
 public class App {
     public static void main( String[] args ) {
     	System.setProperty("testing","false");
@@ -15,8 +15,8 @@ public class App {
 		System.out.println("Veuilez saisir un nombre : ");
 		Scanner scanner = new Scanner(System.in);
 		int nombre = scanner.nextInt(); 
-		CompanyController companyImpl = new CompanyController();
-		ComputerController computerImpl = new ComputerController();
+		CompanyService companyImpl = new CompanyService();
+		ComputerService computerImpl = new ComputerService();
 		switch (nombre) {
 		case 1:
 			System.out.println("Liste des companies : \n");
@@ -51,8 +51,6 @@ public class App {
 			System.out.println("Veuillez saisir un id pour l'ordinateur à modifier");
 			int idUpdate = scanner.nextInt();
 			Computer comp = computerImpl.getComputerById(idUpdate);
-			System.out.println("Veuillez saisir un id \n");
-			int id1 = scanner.nextInt();
 			System.out.println("Veuillez saisir un nom \n");
 			String name1 = scanner.next();
 			System.out.println("Veuillez saisir d'introduction \n");
@@ -62,7 +60,7 @@ public class App {
 			System.out.println("Veuillez saisir la companie");
 			Company company1 = new Company(1,scanner.nextLine());
 			if (dateIntroduced1.isBefore(dateDisconted1)) {
-				computerImpl.update(new ComputerBuilder().id(id1).name(name1).introduced(dateIntroduced1).discontinued(dateDisconted1).company(company1).build());
+				computerImpl.update(new ComputerBuilder().id(comp.getId()).name(name1).introduced(dateIntroduced1).discontinued(dateDisconted1).company(company1).build());
 			}
 			break;
 		case 6:

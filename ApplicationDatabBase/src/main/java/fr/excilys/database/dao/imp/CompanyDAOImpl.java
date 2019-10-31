@@ -9,12 +9,14 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.springframework.stereotype.Component;
+
 import fr.excilys.database.connection.ConnectionBD;
 import fr.excilys.database.dao.CompanyDAO;
 import fr.excilys.database.mapper.CompanyMapper;
 import fr.excilys.database.model.Company;
 
-
+@Component
 public class CompanyDAOImpl implements CompanyDAO {
 
 	private Statement statement = null;

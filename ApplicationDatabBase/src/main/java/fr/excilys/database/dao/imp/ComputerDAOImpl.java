@@ -10,13 +10,15 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.springframework.stereotype.Component;
+
 import fr.excilys.database.connection.ConnectionBD;
 import fr.excilys.database.dao.ComputerDAO;
 import fr.excilys.database.mapper.ComputerMapper;
 import fr.excilys.database.mapper.ConverterDate;
 import fr.excilys.database.model.Computer;
 
-
+@Component
 public class ComputerDAOImpl implements ComputerDAO {
 	
 	private PreparedStatement prepared = null;
