@@ -3,21 +3,23 @@ package fr.excilys.database.connection;
 import java.sql.Connection;
 import java.sql.SQLException;
 
+import javax.sql.DataSource;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.zaxxer.hikari.HikariConfig;
-import com.zaxxer.hikari.HikariDataSource;
 
 @Component
 public class ConnectionBD {
 	private static Connection connect;
-	private String configFile= "/db.properties";
-	private HikariConfig cfg=new HikariConfig(configFile);
-	private HikariDataSource ds=new HikariDataSource(cfg);
-
+//	private String configFile= "/db.properties";
+//	private HikariConfig cfg=new HikariConfig(configFile);
+//	private HikariDataSource ds=new HikariDataSource(cfg);
+    @Autowired
+    private DataSource dataSource;
 	public Connection getConnection(){
 		try {	
-			    connect = ds.getConnection();
+			    connect = dataSource.getConnection();
 		}catch (SQLException se) {
 			for(Throwable e : se) {
                 System.err.println("Erreurs : " + e);
