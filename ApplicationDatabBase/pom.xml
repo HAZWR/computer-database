@@ -58,7 +58,7 @@
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
-      <version>4.11</version>
+      <version>4.12</version>
       <scope>test</scope>
     </dependency>
     <dependency>
@@ -112,14 +112,23 @@
     <groupId>org.springframework</groupId>
     <artifactId>spring-webmvc</artifactId>
     <version>5.2.0.RELEASE</version>
-</dependency>
-
+   </dependency>
     <dependency>
 	    <groupId>org.springframework</groupId>
 	    <artifactId>spring-jdbc</artifactId>
 	    <version>5.2.0.RELEASE</version>
     </dependency>
-    
+    <dependency>
+	    <groupId>org.springframework</groupId>
+	    <artifactId>spring-test</artifactId>
+	    <version>5.2.1.RELEASE</version>
+	    <scope>test</scope>
+   </dependency>
+    <dependency>
+		<groupId>ch.qos.logback</groupId>
+		<artifactId>logback-classic</artifactId>
+		<version>1.0.13</version>
+</dependency>
   </dependencies>
 <build>
     <finalName>computer-database-app</finalName>
