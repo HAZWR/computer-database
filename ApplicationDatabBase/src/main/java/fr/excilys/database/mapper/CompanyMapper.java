@@ -3,21 +3,13 @@ package fr.excilys.database.mapper;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import org.springframework.jdbc.core.RowMapper;
+import org.springframework.stereotype.Component;
+
 import fr.excilys.database.model.Company;
 
-
-public class CompanyMapper {
-	
-	private static CompanyMapper companyMap;
-	
-	private CompanyMapper() {}
-	
-	public static CompanyMapper getInstance() {
-		if(companyMap==null) {
-			companyMap=new CompanyMapper();
-		}
-		return companyMap;
-	}
+@Component
+public class CompanyMapper implements RowMapper<Company>{
         
 	public Company convertSQLtoCompany(ResultSet rs){
 		   Company comp=new Company();
@@ -30,5 +22,13 @@ public class CompanyMapper {
 	            }
 			}
 		   return comp;
+	}
+
+	@Override
+	public Company mapRow(ResultSet rs, int rowNum) throws SQLException {
+		Company comp=new Company();
+		comp.setId(rs.getInt("id"));
+		   comp.setName(rs.getString("name"));
+		return comp;
 	}
 }

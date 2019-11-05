@@ -33,8 +33,6 @@ public class App {
 			break;
 		case 4:
 			System.out.println("Création d'un nouvel ordinateur \n");
-			System.out.println("Veuillez saisir un identifiant \n");
-			int identifiant = scanner.nextInt();
 			System.out.println("Veuillez saisir un nom \n");
 			String name = scanner.next();
 			System.out.println("Veuillez saisir d'introduction \n");
@@ -44,7 +42,7 @@ public class App {
 			System.out.println("Veuillez saisir la companie");
 			Company company = new Company(0,scanner.nextLine());
 			if (dateIntroduced.isBefore(dateDisconted)) {
-				computerImpl.create(new ComputerBuilder().id(identifiant).name(name).introduced(dateIntroduced).discontinued(dateDisconted).company(company).build());
+				computerImpl.create(new ComputerBuilder().name(name).introduced(dateIntroduced).discontinued(dateDisconted).company(company).build());
 			}
 			break;
 		case 5:
