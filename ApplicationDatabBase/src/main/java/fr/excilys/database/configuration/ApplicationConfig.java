@@ -16,6 +16,8 @@ import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import org.springframework.web.servlet.view.JstlView;
 
@@ -23,7 +25,7 @@ import org.springframework.web.servlet.view.JstlView;
 @ComponentScan(basePackages = "fr.excilys.database")
 @PropertySources({ @PropertySource("classpath:db.properties") })
 @EnableWebMvc
-public class ApplicationConfig extends AbstractContextLoaderInitializer {
+public class ApplicationConfig extends AbstractContextLoaderInitializer implements WebMvcConfigurer{
 	// Stores all the properties loaded by the @PropertySource
     @Autowired
     private Environment env;
@@ -64,4 +66,10 @@ public class ApplicationConfig extends AbstractContextLoaderInitializer {
       return bean;
     }
 
+    @Override
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        registry
+          .addResourceHandler("/ressources/**")
+          .addResourceLocations("/ressources/");
+    }
 }
