@@ -14,10 +14,15 @@ import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.web.context.AbstractContextLoaderInitializer;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
+import org.springframework.web.servlet.ViewResolver;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.view.InternalResourceViewResolver;
+import org.springframework.web.servlet.view.JstlView;
 
 @Configuration
 @ComponentScan(basePackages = "fr.excilys.database")
 @PropertySources({ @PropertySource("classpath:db.properties") })
+@EnableWebMvc
 public class ApplicationConfig extends AbstractContextLoaderInitializer {
 	// Stores all the properties loaded by the @PropertySource
     @Autowired
@@ -47,6 +52,16 @@ public class ApplicationConfig extends AbstractContextLoaderInitializer {
         JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
         jdbcTemplate.setResultsMapCaseInsensitive(true);
         return jdbcTemplate;
+    }
+    
+    @Bean
+    public ViewResolver internalResourceViewResolver() {
+      InternalResourceViewResolver bean = new InternalResourceViewResolver();
+      bean.setViewClass(JstlView.class);
+      bean.setPrefix("/views/");
+      bean.setSuffix(".jsp");
+
+      return bean;
     }
 
 }
