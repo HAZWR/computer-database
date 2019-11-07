@@ -18,8 +18,9 @@ public class ComputerDAOImpl implements ComputerDAO {
     private final static String supprimerQuery="DELETE FROM computer WHERE id = ?";
     private final static String getAllQuery="select * from computer LEFT JOIN company ON computer.company_id=company.id";
     private final static String getIdQuery="select * from computer  LEFT JOIN company ON computer.company_id=company.id where computer.id=?";
-    private final static String getCount="select count(*) as nombre from computer";
+    private final static String getCount="select count(*) as nombre from computer where name like ?";
     private final static String getAllWithPaginatin="select * from computer  LEFT JOIN company  ON computer.company_id=company.id LIMIT ? OFFSET ?";
+    private final static String getComputerByName="select * from computer  LEFT JOIN company  ON computer.company_id=company.id where computer.name like ?";
 	private Logger logger=Logger.getLogger("my logger");
 	@Autowired
 	private ComputerMapper computerMapper;
@@ -59,14 +60,21 @@ public class ComputerDAOImpl implements ComputerDAO {
 	}
 
 	@Override
-	public int count(){
-		return jdbcTemplate.queryForObject(getCount, Integer.class);
+	public int count(String name){
+		logger.log(Level.INFO,"Début de l'opération d'affichage de comptage de computers");
+		return jdbcTemplate.queryForObject(getCount, Integer.class,"%"+name+"%");
 	}
 
 	@Override
 	public List<Computer> getAllComputersPagination(int nombre,int offset){
 		logger.log(Level.INFO,"Début de l'opération d'affichage d'ordinateurs avec pagination");
 		return jdbcTemplate.query(getAllWithPaginatin,computerMapper,nombre,offset);
+	}
+	
+	@Override
+	public List<Computer> getComputerByName(String name) {
+		logger.log(Level.INFO,"Début de l'opération de récupération d'un computer à partir de son nom");
+		return jdbcTemplate.query(getComputerByName,computerMapper,"%"+name+"%");
 	}
 
 }

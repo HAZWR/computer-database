@@ -18,9 +18,9 @@
 <script
 	src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
 <!-- Bootstrap -->
-<link href="css/bootstrap.min.css" rel="stylesheet" media="screen">
-<link href="css/font-awesome.css" rel="stylesheet" media="screen">
-<link href="css/main.css" rel="stylesheet" media="screen">
+<link href="ressources/css/bootstrap.min.css" rel="stylesheet" media="screen">
+<link href="ressources/css/font-awesome.css" rel="stylesheet" media="screen">
+<link href="ressources/css/main.css" rel="stylesheet" media="screen">
 <script type="text/javascript">
 console.log("tew")
 	$(function() {
@@ -93,7 +93,7 @@ console.log("tew")
 								<label for="companyId">Company</label> <select
 									class="form-control" id="companyId" name="companyId">
 									<c:forEach var="company" items="${listCompanies}">
-										<option value="${company.id}"><c:out
+										<option value="${company.name}"><c:out
 												value="${company.name}" /></option>
 									</c:forEach>
 								</select>

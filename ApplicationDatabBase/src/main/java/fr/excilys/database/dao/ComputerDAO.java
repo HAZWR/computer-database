@@ -16,8 +16,10 @@ public interface ComputerDAO {
 
 	boolean supprimer(int id);
 	
-    int count();
-
 	List<Computer> getAllComputersPagination(int nombre, int offset);
+
+	List<Computer> getComputerByName(String name);
+
+	int count(String name);
 
 }

@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+
 import fr.excilys.database.mapper.ConverterDate;
 import fr.excilys.database.model.Company;
 import fr.excilys.database.model.Computer;
@@ -23,26 +25,39 @@ import javax.servlet.http.HttpServletResponse;
 public class ComputerController {
 
 	@Autowired
-	ComputerService computerService;
+	private ComputerService computerService;
 	
 	@Autowired
-	CompanyService companyService;
+	private CompanyService companyService;
 	
-	@GetMapping(path= "/menuComputer")
-	public String getAllComputers(Model model){
-		List<Computer> listComputers=computerService.getAllComputers();
+	private List<Computer> listComputers;
+	
+	@GetMapping(path= "/menu")
+	public String getAllComputers(Model model,@RequestParam(name="search",defaultValue="")String search){
+		listComputers=computerService.getComputerByName(search);
 		model.addAttribute("listComputers", listComputers);
+		int nombre=computerService.count(search);
+		model.addAttribute("nombre",nombre);
 		return "dashboard";
 	}
 	
-	@GetMapping("/addComputer1")
-	public String addComputer(HttpServletRequest request, HttpServletResponse response){
+	@GetMapping("/addComputer")
+	public String addComputer(Model model){
 		List<Company> listCompanies=companyService.getAllCompanies();
-		request.setAttribute("listCompanies",listCompanies);
+		model.addAttribute("listCompanies",listCompanies);
 		return "addComputer";
 	}
 	
-	@PostMapping("/addComputer1")
+	@GetMapping("/editComputer")
+	public String editComputer(Model model,@RequestParam(name="id")int id){
+		List<Company> listCompanies=companyService.getAllCompanies();
+		model.addAttribute("listCompanies",listCompanies);
+		Computer ordi = computerService.getComputerById(id);
+		model.addAttribute("ordi", ordi);
+		return "editComputer";
+	}
+	
+	@PostMapping("/addComputer")
 	public String addComputerPost(HttpServletRequest request, HttpServletResponse response) {
 		String nom=request.getParameter("computerName")!=null?request.getParameter("computerName"):null;
 		LocalDate introduced=request.getParameter("introduced")!=null?ConverterDate.StringDateToLocalDate(request.getParameter("introduced")):null;
@@ -52,8 +67,8 @@ public class ComputerController {
 		return "addComputer";
 	}
 	
-	@PostMapping("/menuComputer")
-	public String deleteComputer(HttpServletRequest request, HttpServletResponse response) {
+	@PostMapping("/menu")
+	public String deleteComputer(HttpServletRequest request) {
 		String s=request.getParameter("selection");
 		String[] myValues=s.split(",");
 		for(String val:myValues) {
@@ -63,20 +78,14 @@ public class ComputerController {
 		return "dashboard";
 	}
 	
-	@GetMapping("/editComputer1")
-	public String editComputer(HttpServletRequest request, HttpServletResponse response){
-		List<Company> listCompanies=companyService.getAllCompanies();
-		request.setAttribute("listCompanies",listCompanies);
-		return "editComputer";
-	}
-	
-	@PostMapping("/editComputer1")
+	@PostMapping("/editComputer")
 	public String editComputerPost(HttpServletRequest request, HttpServletResponse response) {
-		String nom=request.getParameter("computerName")!=null?request.getParameter("computerName"):null;
+		int id=request.getParameter("id")!=null?Integer.parseInt(request.getParameter("id")):null;
+		String nom=request.getParameter("nom")!=null?request.getParameter("nom"):null;
 		LocalDate introduced=request.getParameter("introduced")!=null?ConverterDate.StringDateToLocalDate(request.getParameter("introduced")):null;
 		LocalDate discontinued=request.getParameter("discontinued")!=null?ConverterDate.StringDateToLocalDate(request.getParameter("discontinued")):null;
 		String companyId=request.getParameter("companyId")!=null?request.getParameter("companyId"):null;
-		computerService.create(new ComputerBuilder().name(nom).introduced(introduced).discontinued(discontinued).company(new Company(0,companyId)).build());
+		computerService.update(new ComputerBuilder().id(id).name(nom).introduced(introduced).discontinued(discontinued).company(new Company(0,companyId)).build());
 		return "editComputer";
 	}
 }
