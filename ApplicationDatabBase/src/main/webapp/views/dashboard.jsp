@@ -42,7 +42,13 @@
         <form id="deleteForm" action="" method="POST">
             <input type="hidden" name="selection" value='' >
         </form>
-
+			
+		<div>
+               <a  href="?lang=en"><spring:message code="app.lang.english"/></a> 
+               <a  href="?lang=hi"><spring:message code="app.lang.hindi"/></a>
+               <a  href="?lang=cn"><spring:message code="app.lang.chinese"/></a>
+        </div>
+        
         <div class="container" style="margin-top: 10px;">
             <table class="table table-striped table-bordered">
                 <thead>
