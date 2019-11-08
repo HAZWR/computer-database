@@ -4,11 +4,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import fr.excilys.database.dto.ComputerDTO;
+import fr.excilys.database.mapper.ComputerMapper;
 import fr.excilys.database.mapper.ConverterDate;
 import fr.excilys.database.model.Company;
 import fr.excilys.database.model.Computer;
@@ -30,6 +33,9 @@ public class ComputerController {
 	@Autowired
 	private CompanyService companyService;
 	
+	@Autowired
+	private ComputerMapper computerMapper;
+	
 	private List<Computer> listComputers;
 	
 	@GetMapping(path= "/menu")
@@ -44,6 +50,7 @@ public class ComputerController {
 	@GetMapping("/addComputer")
 	public String addComputer(Model model){
 		List<Company> listCompanies=companyService.getAllCompanies();
+		model.addAttribute("computerDTO", new ComputerDTO());
 		model.addAttribute("listCompanies",listCompanies);
 		return "addComputer";
 	}
@@ -53,24 +60,21 @@ public class ComputerController {
 		List<Company> listCompanies=companyService.getAllCompanies();
 		model.addAttribute("listCompanies",listCompanies);
 		Computer ordi = computerService.getComputerById(id);
-		model.addAttribute("ordi", ordi);
+		ComputerDTO computer=computerMapper.computerToComputerDto(ordi);
+		model.addAttribute("computer", computer);
 		return "editComputer";
 	}
 	
 	@PostMapping("/addComputer")
-	public String addComputerPost(HttpServletRequest request, HttpServletResponse response) {
-		String nom=request.getParameter("computerName")!=null?request.getParameter("computerName"):null;
-		LocalDate introduced=request.getParameter("introduced")!=null?ConverterDate.StringDateToLocalDate(request.getParameter("introduced")):null;
-		LocalDate discontinued=request.getParameter("discontinued")!=null?ConverterDate.StringDateToLocalDate(request.getParameter("discontinued")):null;
-		String companyId=request.getParameter("companyId")!=null?request.getParameter("companyId"):null;
-		computerService.create(new ComputerBuilder().name(nom).introduced(introduced).discontinued(discontinued).company(new Company(0,companyId)).build());
+	public String addComputerPost(@ModelAttribute("computerDTO") ComputerDTO computerDto,Model model) {
+		Computer computer=computerMapper.computerDtoToComputer(computerDto);
+		computerService.create(computer);
 		return "addComputer";
 	}
 	
 	@PostMapping("/menu")
-	public String deleteComputer(HttpServletRequest request) {
-		String s=request.getParameter("selection");
-		String[] myValues=s.split(",");
+	public String deleteComputer(@RequestParam(name="selection")String selection) {
+		String[] myValues=selection.split(",");
 		for(String val:myValues) {
 			System.out.println(val);
 			computerService.supprimer(Integer.parseInt(val));
@@ -79,13 +83,9 @@ public class ComputerController {
 	}
 	
 	@PostMapping("/editComputer")
-	public String editComputerPost(HttpServletRequest request, HttpServletResponse response) {
-		int id=request.getParameter("id")!=null?Integer.parseInt(request.getParameter("id")):null;
-		String nom=request.getParameter("nom")!=null?request.getParameter("nom"):null;
-		LocalDate introduced=request.getParameter("introduced")!=null?ConverterDate.StringDateToLocalDate(request.getParameter("introduced")):null;
-		LocalDate discontinued=request.getParameter("discontinued")!=null?ConverterDate.StringDateToLocalDate(request.getParameter("discontinued")):null;
-		String companyId=request.getParameter("companyId")!=null?request.getParameter("companyId"):null;
-		computerService.update(new ComputerBuilder().id(id).name(nom).introduced(introduced).discontinued(discontinued).company(new Company(0,companyId)).build());
+	public String editComputerPost(@ModelAttribute("computer") ComputerDTO computerDto,Model model) {
+		Computer computer=computerMapper.computerDtoToComputer(computerDto);
+		computerService.update(computer);
 		return "editComputer";
 	}
 }
