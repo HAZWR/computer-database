@@ -3,13 +3,12 @@ package fr.excilys.database.dao;
 import java.util.List;
 import fr.excilys.database.model.Company;
 
-
 public interface CompanyDAO {
 
-    List<Company> getAllCompanies() ;
+	List<Company> getAllCompanies();
 
-	int countCompanies() ;
+	int countCompanies();
 
-	List<Company> getAllCompaniesPagination(int nombre, int offset) ;
+	List<Company> getAllCompaniesPagination(int nombre, int offset);
 
 }

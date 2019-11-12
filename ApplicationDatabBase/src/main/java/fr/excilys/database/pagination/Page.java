@@ -12,12 +12,15 @@ public class Page {
 	public int getTaille() {
 		return taille;
 	}
+
 	public void setTaille(int taille) {
 		this.taille = taille;
 	}
+
 	public int getNombreLignes() {
 		return nombreLignes;
 	}
+
 	public void setNombreLignes(int nombreLignes) {
 		this.nombreLignes = nombreLignes;
 	}

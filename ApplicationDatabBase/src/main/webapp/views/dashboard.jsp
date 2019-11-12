@@ -1,6 +1,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jstl/core_rt" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@ page contentType="text/html; charset=UTF-8" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -47,6 +48,7 @@
                <a  href="?lang=en"><spring:message code="app.lang.english"/></a> 
                <a  href="?lang=hi"><spring:message code="app.lang.hindi"/></a>
                <a  href="?lang=cn"><spring:message code="app.lang.chinese"/></a>
+               <a  href="?lang=fr"><spring:message code="app.lang.francais"/></a>
         </div>
         
         <div class="container" style="margin-top: 10px;">
