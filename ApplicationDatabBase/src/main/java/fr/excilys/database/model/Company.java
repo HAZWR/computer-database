@@ -9,7 +9,7 @@ import javax.validation.constraints.Positive;
 import javax.validation.constraints.Size;
 
 @Entity
-@Table(name = "Company")
+@Table(name = "company")
 public class Company {
 	@Override
 	public String toString() {

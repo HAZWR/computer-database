@@ -7,24 +7,21 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import fr.excilys.database.dto.ComputerDTO;
 import fr.excilys.database.mapper.ComputerMapper;
-import fr.excilys.database.mapper.ConverterDate;
 import fr.excilys.database.model.Company;
 import fr.excilys.database.model.Computer;
-import fr.excilys.database.model.Computer.ComputerBuilder;
 import fr.excilys.database.service.CompanyService;
 import fr.excilys.database.service.ComputerService;
 
-import java.time.LocalDate;
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+
+
 @Controller
+@RequestMapping("/computerAPI")
 public class ComputerController {
 
 	@Autowired
@@ -82,11 +79,11 @@ public class ComputerController {
 		}
 		return "dashboard";
 	}
-	
-	@PostMapping("/editComputer")
-	public String editComputerPost(@ModelAttribute("computer") ComputerDTO computerDto,Model model) {
-		Computer computer=computerMapper.computerDtoToComputer(computerDto);
-		computerService.update(computer);
-		return "editComputer";
-	}
+//	
+//	@PostMapping("/editComputer")
+//	public String editComputerPost(@ModelAttribute("computer") ComputerDTO computerDto,Model model) {
+//		Computer computer=computerMapper.computerDtoToComputer(computerDto);
+//		computerService.update(computer);
+//		return "editComputer";
+//	}
 }

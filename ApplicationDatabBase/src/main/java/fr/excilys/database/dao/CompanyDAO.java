@@ -1,14 +1,9 @@
 package fr.excilys.database.dao;
 
-import java.util.List;
+import org.springframework.data.jpa.repository.JpaRepository;
+
 import fr.excilys.database.model.Company;
 
-public interface CompanyDAO {
-
-	List<Company> getAllCompanies();
-
-	int countCompanies();
-
-	List<Company> getAllCompaniesPagination(int nombre, int offset);
+public interface CompanyDAO extends JpaRepository<Company,Integer>{
 
 }

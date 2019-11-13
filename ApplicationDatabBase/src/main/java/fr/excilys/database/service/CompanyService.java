@@ -15,11 +15,11 @@ public class CompanyService {
 	private CompanyDAO companyDAO;
 
 	public List<Company> getAllCompanies() {
-		return companyDAO.getAllCompanies();
+		return companyDAO.findAll();
 	}
 
-	public List<Company> getAllCompaniesPagination(int nblignes, int offset) {
-		return companyDAO.getAllCompaniesPagination(nblignes, offset);
-	}
+//	public List<Company> getAllCompaniesPagination(int nblignes, int offset) {
+//		return companyDAO.getAllCompaniesPagination(nblignes, offset);
+//	}
 
 }

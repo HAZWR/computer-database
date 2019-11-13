@@ -1,6 +1,8 @@
 package fr.excilys.database.configuration;
 
 import java.util.Locale;
+import java.util.Properties;
+import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
@@ -12,10 +14,13 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.annotation.PropertySources;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.core.env.Environment;
+import org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.jpa.JpaTransactionManager;
-import org.springframework.orm.jpa.LocalEntityManagerFactoryBean;
+import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
+import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
+import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.context.AbstractContextLoaderInitializer;
 import org.springframework.web.context.WebApplicationContext;
@@ -30,12 +35,12 @@ import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import org.springframework.web.servlet.view.JstlView;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @Configuration
-@ComponentScans(value = { @ComponentScan("fr.excilys.database.dao.imp"),
-	      @ComponentScan("fr.excilys.database.mapper"),@ComponentScan("fr.excilys.database.model"),@ComponentScan("fr.excilys.database.service"),
-	      @ComponentScan("fr.excilys.database.servlet")})
+@ComponentScans(value = { @ComponentScan("fr.excilys.database")})
 @PropertySources({ @PropertySource("classpath:db.properties") })
+@EnableJpaRepositories(basePackages = "fr.excilys.database.dao")
 @EnableTransactionManagement
 @EnableWebMvc
 public class ApplicationConfig extends AbstractContextLoaderInitializer implements WebMvcConfigurer {
@@ -112,17 +117,39 @@ public class ApplicationConfig extends AbstractContextLoaderInitializer implemen
 	}
 
 	@Bean
-	public LocalEntityManagerFactoryBean geEntityManagerFactoryBean() {
-		LocalEntityManagerFactoryBean factoryBean = new LocalEntityManagerFactoryBean();
-		factoryBean.setPersistenceUnitName("LOCAL_PERSISTENCE");
-		return factoryBean;
+	public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
+		final LocalContainerEntityManagerFactoryBean entityManagerFactoryBean = new LocalContainerEntityManagerFactoryBean();
+		entityManagerFactoryBean.setDataSource(getDataSource());
+		entityManagerFactoryBean.setPackagesToScan(new String[] { "fr.excilys.database.model" });
+
+		final HibernateJpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
+		entityManagerFactoryBean.setJpaVendorAdapter(vendorAdapter);
+		entityManagerFactoryBean.setJpaProperties(additionalProperties());
+
+		return entityManagerFactoryBean;
 	}
 
 	@Bean
-	public JpaTransactionManager geJpaTransactionManager() {
-		JpaTransactionManager transactionManager = new JpaTransactionManager();
-		transactionManager.setEntityManagerFactory(geEntityManagerFactoryBean().getObject());
+	public PlatformTransactionManager transactionManager(final EntityManagerFactory emf) {
+		final JpaTransactionManager transactionManager = new JpaTransactionManager();
+		transactionManager.setEntityManagerFactory(emf);
 		return transactionManager;
+	}
+
+	@Bean
+	public PersistenceExceptionTranslationPostProcessor exceptionTranslation() {
+		return new PersistenceExceptionTranslationPostProcessor();
+	}
+
+	final Properties additionalProperties() {
+		final Properties hibernateProperties = new Properties();
+		hibernateProperties.setProperty("hibernate.hbm2ddl.auto", env.getProperty("hibernate.hbm2ddl.auto"));
+		hibernateProperties.setProperty("hibernate.dialect", env.getProperty("hibernate.dialect"));
+		hibernateProperties.setProperty("hibernate.cache.use_second_level_cache",
+				env.getProperty("hibernate.cache.use_second_level_cache"));
+		hibernateProperties.setProperty("hibernate.cache.use_query_cache",
+				env.getProperty("hibernate.cache.use_query_cache"));
+		return hibernateProperties;
 	}
 
 }
