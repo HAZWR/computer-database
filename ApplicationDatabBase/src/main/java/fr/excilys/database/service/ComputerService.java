@@ -24,13 +24,19 @@ public class ComputerService {
 	@Transactional
 	public boolean create(Computer comp) {
 		if(comp!=null)
-			computerDAO.save(comp);
+			computerDAO.saveAndFlush(comp);
 		return true;
 	}
 
-//	public boolean update(Computer comp) {
-//		return computerDAO.update(comp);
-//	}
+	public boolean update(Computer comp) {
+		if(comp!=null)
+			computerDAO.updateComputer(comp.getName(),
+					comp.getIntroduced(), 
+					comp.getDiscontinued(), 
+					comp.getManufacturer().getName(), 
+					comp.getId());
+		return true;
+	}
 
 	public boolean supprimer(int id) {
 		if(id!=0)
@@ -44,10 +50,10 @@ public class ComputerService {
 //	}
 
 	public int count(String searchName) {
-		return computerDAO.count(searchName);
+		return computerDAO.count("%"+searchName+"%");
 	}
 
 	public List<Computer> getComputerByName(String name) {
-		return computerDAO.findByName("%" + name + "%");
+		return computerDAO.findByName("%"+name+"%");
 	}
 }

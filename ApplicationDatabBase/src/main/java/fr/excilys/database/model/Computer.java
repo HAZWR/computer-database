@@ -1,23 +1,21 @@
 package fr.excilys.database.model;
 
 import java.time.LocalDate;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Positive;
 import javax.validation.constraints.Size;
-
 import fr.excilys.database.annotation.ValidDate;
 
 @Entity
 @Table(name = "computer")
 public class Computer {
 	@Id
-	@Positive
 	private int id;
 	
 	@Column(name = "name")
@@ -35,10 +33,14 @@ public class Computer {
 	@ValidDate(comments = "Date valide")
 	private LocalDate discontinued;
 
-	@Column(name = "company_id")
 	@NotNull(message = "Company not null")
-	@ManyToOne
+	@ManyToOne(fetch=FetchType.EAGER)
+	@JoinColumn(name="company_id")
 	private Company manufacturer;
+	
+	public Computer() {
+		super();
+	}
 
 	public Computer(ComputerBuilder builder) {
 		this.id = builder.id;
@@ -71,7 +73,7 @@ public class Computer {
 	@Override
 	public String toString() {
 		return "Computer [id=" + id + ", name=" + name + ", introduced=" + introduced + ", discontinued=" + discontinued
-				+ ", manufacturer=" + manufacturer.toString() + "]";
+				+ ", manufacturer=" + manufacturer + "]";
 	}
 
 	public static class ComputerBuilder {

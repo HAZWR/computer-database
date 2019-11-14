@@ -20,9 +20,9 @@
 <script
 	src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
 <!-- Bootstrap -->
-<link href="ressources/css/bootstrap.min.css" rel="stylesheet" media="screen">
-<link href="ressources/css/font-awesome.css" rel="stylesheet" media="screen">
-<link href="ressources/css/main.css" rel="stylesheet" media="screen">
+<link href="<c:url value="/ressources/css/bootstrap.min.css"/>" rel="stylesheet" media="screen">
+<link href="<c:url value="/ressources/css/font-awesome.css"/>" rel="stylesheet" media="screen">
+<link href="<c:url value="/ressources/css/main.css"/>" rel="stylesheet" media="screen">
 <script type="text/javascript">
 console.log("tew")
 	$(function() {
@@ -92,10 +92,10 @@ console.log("tew")
 									id="discontinued" placeholder="Discontinued date"  />
 							</div>
 							<div class="form-group">
-								<form:label path="company" for="companyId">Company</form:label> <form:select
-									path="company" class="form-control" id="companyId" name="companyId">
+								<form:label path="company_id" for="companyId">Company</form:label> <form:select
+									path="company_id" class="form-control" id="companyId" name="companyId">
 									<c:forEach var="company" items="${listCompanies}">
-										<option value="${company.name}"><c:out
+										<option value="${company.id}"><c:out
 												value="${company.name}" /></option>
 									</c:forEach>
 								</form:select>

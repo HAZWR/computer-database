@@ -38,6 +38,7 @@ public class ComputerController {
 	
 	@GetMapping(path= "/menu")
 	public String getAllComputers(Model model,@RequestParam(name="search",defaultValue="")String search){
+		System.err.println("salam");
 		listComputers=computerService.getComputerByName(search);
 		model.addAttribute("listComputers", listComputers);
 		int nombre=computerService.count(search);
@@ -72,18 +73,19 @@ public class ComputerController {
 	
 	@PostMapping("/menu")
 	public String deleteComputer(@RequestParam(name="selection")String selection) {
+		System.err.println("ototototot");
 		String[] myValues=selection.split(",");
 		for(String val:myValues) {
-			System.out.println(val);
+			
 			computerService.supprimer(Integer.parseInt(val));
 		}
 		return "dashboard";
 	}
-//	
-//	@PostMapping("/editComputer")
-//	public String editComputerPost(@ModelAttribute("computer") ComputerDTO computerDto,Model model) {
-//		Computer computer=computerMapper.computerDtoToComputer(computerDto);
-//		computerService.update(computer);
-//		return "editComputer";
-//	}
+	
+	@PostMapping("/editComputer")
+	public String editComputerPost(@ModelAttribute("computer") ComputerDTO computerDto,Model model) {
+		Computer computer=computerMapper.computerDtoToComputer(computerDto);
+		computerService.update(computer);
+		return "editComputer";
+	}
 }

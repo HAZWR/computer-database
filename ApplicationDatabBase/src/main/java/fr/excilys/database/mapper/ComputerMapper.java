@@ -35,7 +35,7 @@ public class ComputerMapper implements RowMapper<Computer> {
 				.introduced(computerDto.getIntroduced() != null ? LocalDate.parse(computerDto.getIntroduced()) : null)
 				.discontinued(
 						computerDto.getDiscontinued() != null ? LocalDate.parse(computerDto.getDiscontinued()) : null)
-				.company(new Company(computerDto.getCompany())).build();
+				.company(new Company(computerDto.getCompany_id(),computerDto.getCompany())).build();
 
 	}
 
@@ -46,6 +46,7 @@ public class ComputerMapper implements RowMapper<Computer> {
 		computerDto.setIntroduced(computer.getIntroduced() != null ? computer.getIntroduced().toString() : null);
 		computerDto.setDiscontinued(computer.getDiscontinued() != null ? computer.getDiscontinued().toString() : null);
 		computerDto.setCompany(computer.getManufacturer().getName());
+		computerDto.setCompany_id(computer.getManufacturer().getId());
 		return computerDto;
 	}
 }
