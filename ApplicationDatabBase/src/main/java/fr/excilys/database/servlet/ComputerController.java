@@ -8,17 +8,13 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-
 import fr.excilys.database.dto.ComputerDTO;
 import fr.excilys.database.mapper.ComputerMapper;
 import fr.excilys.database.model.Company;
 import fr.excilys.database.model.Computer;
 import fr.excilys.database.service.CompanyService;
 import fr.excilys.database.service.ComputerService;
-
 import java.util.List;
-
-
 
 @Controller
 @RequestMapping("/computerAPI")

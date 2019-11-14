@@ -23,25 +23,30 @@ public class ComputerService {
 	
 	@Transactional
 	public boolean create(Computer comp) {
-		if(comp!=null)
+		boolean etat=false;
+		if(comp!=null) {
 			computerDAO.saveAndFlush(comp);
-		return true;
+			etat=true;
+		}
+		return etat;
 	}
 
 	public boolean update(Computer comp) {
-		if(comp!=null)
-			computerDAO.updateComputer(comp.getName(),
-					comp.getIntroduced(), 
-					comp.getDiscontinued(), 
-					comp.getManufacturer().getName(), 
-					comp.getId());
-		return true;
+		boolean etat=false;
+		if(comp!=null) {
+			computerDAO.save(comp);
+			etat=true;
+		}
+		return etat;
 	}
 
 	public boolean supprimer(int id) {
-		if(id!=0)
+		boolean etat=false;
+		if(id!=0) {
 			computerDAO.deleteById(id);
-		return true;
+			etat=true;
+		}
+		return etat;
 	}
 
 //	@Transactional
@@ -50,10 +55,16 @@ public class ComputerService {
 //	}
 
 	public int count(String searchName) {
-		return computerDAO.count("%"+searchName+"%");
+		int count=0;
+		if(searchName!=null)
+			count = computerDAO.count("%"+searchName+"%");
+		return count;
 	}
 
 	public List<Computer> getComputerByName(String name) {
-		return computerDAO.findByName("%"+name+"%");
+		List<Computer> computers = null;
+			if(name!=null)
+				computers=computerDAO.findByName("%"+name+"%");
+		return computers;
 	}
 }

@@ -1,9 +1,7 @@
 package fr.excilys.database.dao;
 
-import java.time.LocalDate;
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
@@ -23,7 +21,7 @@ public interface ComputerDAO extends JpaRepository<Computer,Integer>{
 	@Query(value="select count(*) as nombre from computer LEFT JOIN company ON computer.company_id=company.id where computer.name like :searchName or company.name like :searchName", nativeQuery = true)	
 	int count(@Param("searchName")String searchName);
 	
-	@Modifying
-	@Query(value="UPDATE computer SET name=?,introduced=?,discontinued=?,company_id=(select id from company where name like ?) WHERE id=?",nativeQuery=true)
-	void updateComputer(@Param("name")String name,@Param("introduced")LocalDate introduced,@Param("introduced")LocalDate discontinued,@Param("companyName")String companyName,@Param("idComputer")int idComputer);
+//	@Modifying
+//	@Query(value="UPDATE computer SET name=?,introduced=?,discontinued=?,company_id=(select id from company where name like ?) WHERE id=?",nativeQuery=true)
+//	void updateComputer(@Param("name")String name,@Param("introduced")LocalDate introduced,@Param("introduced")LocalDate discontinued,@Param("companyName")String companyName,@Param("idComputer")int idComputer);
 }
