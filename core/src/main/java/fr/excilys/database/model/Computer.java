@@ -14,7 +14,8 @@ import fr.excilys.database.annotation.ValidDate;
 
 @Entity
 @Table(name = "computer")
-public class Computer {
+public class Computer{
+	
 	@Id
 	private int id;
 	

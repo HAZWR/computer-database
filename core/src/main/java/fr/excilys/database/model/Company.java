@@ -1,5 +1,7 @@
 package fr.excilys.database.model;
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -9,7 +11,10 @@ import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "company")
-public class Company {
+public class Company implements Serializable{
+
+	private static final long serialVersionUID = -4028140107135554638L;
+
 	@Override
 	public String toString() {
 		return "Company [id=" + id + ", name=" + name + "]";
