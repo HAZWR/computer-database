@@ -31,7 +31,6 @@ public class ComputerController {
 	
 	private List<Computer> listComputers;
 	
-	
 	@GetMapping(path= "/menu")
 	public String getAllComputers(Model model,@RequestParam(name="search",defaultValue="")String search){
 		System.err.println("salam");
