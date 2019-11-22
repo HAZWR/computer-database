@@ -80,6 +80,8 @@ public class ApplicationConfig implements WebMvcConfigurer,WebApplicationInitial
 	@Override
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
 		registry.addResourceHandler("/ressources/**").addResourceLocations("/ressources/");
+		registry.addResourceHandler("swagger-ui.html")
+	      .addResourceLocations("classpath:/META-INF/resources/");
 	}
 
 	@Bean
